@@ -1,0 +1,124 @@
+# This file is distributed under the same license as the plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Link Finder\n"
+"Report-Msgid-Bugs-To: Bob Vandevliet <linkfinder@bvandevliet.nl>\n"
+"POT-Creation-Date: 2020-06-12 11:30+0200\n"
+"PO-Revision-Date: 2020-06-12 11:31+0200\n"
+"Last-Translator: Bob Vandevliet <linkfinder@bvandevliet.nl>\n"
+"Language-Team: linkfinder@bvandevliet.nl\n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html_x:1,2c;esc_html__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;"
+"_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;__ngettext_noop:1,2;_c,_nc:4c,1,2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 2.3.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin/settings.php:34
+msgid "Find and fix broken links."
+msgstr "Vind en repareer foutieve links."
+
+#: admin/settings.php:36
+msgid ""
+"Links to admin-pages are ignored.\n"
+"          <br>\n"
+"          If a potential improvement could be made to an internal link, it "
+"is marked yellow. All broken links will be marked red.<br>\n"
+"          <strong>Please note that sometimes links may appear false-"
+"positive, always follow the link manually to confirm before making changes!</"
+"strong>"
+msgstr ""
+"Links naar admin-pagina's worden genegeerd.\n"
+"           <br>\n"
+"           Als een mogelijke verbetering aan een interne link kan worden "
+"gedaan, wordt deze geel gemarkeerd. Alle onjuiste links worden rood "
+"gemarkeerd.<br>\n"
+"           <strong>Houd er rekening mee dat links soms vals-positief kunnen "
+"zijn, volg de link altijd handmatig om te bevestigen voordat u wijzigingen "
+"aanbrengt!</strong>"
+
+#: admin/settings.php:46
+msgid "Code"
+msgstr ""
+
+#: admin/settings.php:47
+msgid "Message"
+msgstr "Melding"
+
+#: admin/settings.php:48
+msgid "Post title (edit-link)"
+msgstr "Post titel (bewerk-link)"
+
+#: admin/settings.php:49
+msgid "Post type"
+msgstr ""
+
+#: admin/settings.php:50
+msgid "Element"
+msgstr ""
+
+#: admin/settings.php:51
+msgid "Original hyperlink"
+msgstr "Originele hyperlink"
+
+#: admin/settings.php:53
+msgid "New hyperlink"
+msgstr "Nieuwe hyperlink"
+
+#: admin/settings.php:107
+msgid "Apply changes"
+msgstr "Wijzigingen doorvoeren"
+
+#: admin/settings.php:108
+msgid "OR apply changes while .."
+msgstr "OF wijzigingen toepassen en .."
+
+#: admin/settings.php:109
+msgid "allowing self-pings (default)"
+msgstr "zelfpingen toestaan (standaard)"
+
+#: admin/settings.php:111
+msgid "avoiding self-pings"
+msgstr "zelfpingen vermijden"
+
+#: admin/settings.php:112
+msgid "About self-pings"
+msgstr "Over zelfpingen"
+
+#: admin/settings.php:113
+msgid "Changes are irreversable!"
+msgstr "Wijzigingen zijn onomkeerbaar!"
+
+#: admin/settings.php:153
+msgid ""
+"Something went wrong, not all hyperlinks were updated! Remaining issues will "
+"reappear in the list."
+msgstr ""
+"Er is iets misgegaan, niet alle hyperlinks zijn bijgewerkt! Resterende "
+"problemen verschijnen opnieuw in de lijst."
+
+#: admin/settings.php:160
+msgid ""
+"Hyperlinks updated. If there are any remaining issues, they will (re)appear "
+"in the list."
+msgstr ""
+"Hyperlinks bijgewerkt. Als er nog problemen zijn, verschijnen deze (opnieuw) "
+"in de lijst."
+
+#: linkfinder.php:55 linkfinder.php:56
+msgid "Link Finder"
+msgstr "Link Vinder"
+
+#: linkfinder.php:85
+msgid "Save changes"
+msgstr "Wijzigingen opslaan"
+
+#: linkfinder.php:116
+msgid "Something went wrong, please try again!"
+msgstr "Er is iets misgegaan, probeer het later opnieuw!"

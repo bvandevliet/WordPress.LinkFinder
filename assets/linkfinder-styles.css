@@ -1,0 +1,87 @@
+a {
+  cursor: pointer;
+}
+
+div.linkfinder-page a,
+div.linkfinder-page input[type=button] {
+  vertical-align: baseline !important;
+}
+
+div.linkfinder_table {
+  overflow-x: auto;
+}
+
+div.linkfinder-page .linkfinder_table th,
+div.linkfinder-page .linkfinder_table td {
+  display: table-cell;
+  text-align: left;
+  padding: 4px 6px;
+}
+
+div.linkfinder-page .linkfinder_table td {
+  background-color: #fff;
+}
+
+div.linkfinder-page .linkfinder_table tr.linkfinder_tr_warn>td,
+div.linkfinder-page .linkfinder_table td.linkfinder_tr_warn {
+  background-color: #ffffb3;
+}
+
+div.linkfinder-page .linkfinder_table tr.linkfinder_tr_err>td,
+div.linkfinder-page .linkfinder_table td.linkfinder_tr_err {
+  background-color: #ffc6b3;
+}
+
+.linkfinder-green-text {
+  color: green;
+}
+
+.linkfinder-orange-text {
+  color: darkorange;
+}
+
+.linkfinder-red-text {
+  color: red;
+}
+
+.linkfinder-loader {
+  display: inline-block;
+  width: 20px;
+  vertical-align: text-bottom;
+  color: #0071a1;
+  text-align: center;
+  outline: none;
+  box-shadow: none !important;
+  /* cursor: wait !important; */
+}
+
+.linkfinder-loader>div {
+  display: block;
+  padding-top: 100%;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-radius: 50%;
+  border-color: #0071a1;
+  -webkit-animation: linkfinder-loader 1s linear infinite;
+  animation: linkfinder-loader 1s linear infinite;
+}
+
+@-webkit-keyframes linkfinder-loader {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes linkfinder-loader {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
