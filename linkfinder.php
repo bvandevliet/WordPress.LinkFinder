@@ -2,10 +2,10 @@
 
 /**
  * Plugin Name:       Link Finder
- * Version:           2020.06.11
+ * Version:           2020.06.15
  * Requires at least: 4.6
  * Requires PHP:      7.2
- * Description:       Find and fix broken links throughout your website.
+ * Description:       Find and repair broken links throughout your website.
  * Author:            Bob Vandevliet
  * Author URI:        https://www.bvandevliet.nl/
  * License:           GPLv2 or later
@@ -13,7 +13,14 @@
  * Text Domain:       linkfinder
  * Domain Path:       /languages
  * 
+ * @ignore local storage to skip re-validation of ignored links on form submit
+ * @ignore add link text table column
+ * @ignore add option to prevent search engines from following a link
+ * @ignore add option to display a broken link differently (e.g. line-through)
+ * @ignore add option to unlink, remove the link but keep the link text
+ * @ignore does the plugin also detects missing images ??
  * 
+ * @ignore keywords: detect/find and repair/fix missing images and broken or redirected links
  */
 
 if( ! defined( 'ABSPATH' ) ) { die(); }

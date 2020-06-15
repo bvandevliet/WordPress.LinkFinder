@@ -37,9 +37,10 @@ class linkfinder_manage_site_hyperlinks
     foreach( $results as $result )
     {
       if(
-        stripos( $result->post_type, 'revision' ) !== false
-        || stripos( $result->post_type, 'draft' ) !== false
-        || stripos( $result->post_status, 'draft' ) !== false
+        $result->post_status != 'publish'
+        || stripos( $result->post_type, 'revision' ) !== false
+        // || stripos( $result->post_type, 'draft' ) !== false
+        // || stripos( $result->post_status, 'draft' ) !== false
       ) {
         continue;
       }

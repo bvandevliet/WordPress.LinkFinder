@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Link Finder\n"
 "Report-Msgid-Bugs-To: Bob Vandevliet <linkfinder@bvandevliet.nl>\n"
-"POT-Creation-Date: 2020-06-12 11:30+0200\n"
-"PO-Revision-Date: 2020-06-12 11:31+0200\n"
+"POT-Creation-Date: 2020-06-17 19:40+0200\n"
+"PO-Revision-Date: 2020-06-17 19:43+0200\n"
 "Last-Translator: Bob Vandevliet <linkfinder@bvandevliet.nl>\n"
 "Language-Team: linkfinder@bvandevliet.nl\n"
 "Language: nl_NL\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #: admin/settings.php:34
-msgid "Find and fix broken links."
+msgid "Find and repair broken links."
 msgstr "Vind en repareer foutieve links."
 
 #: admin/settings.php:36
@@ -34,18 +34,18 @@ msgid ""
 "positive, always follow the link manually to confirm before making changes!</"
 "strong>"
 msgstr ""
-"Links naar admin-pagina's worden genegeerd.\n"
-"           <br>\n"
-"           Als een mogelijke verbetering aan een interne link kan worden "
-"gedaan, wordt deze geel gemarkeerd. Alle onjuiste links worden rood "
+"Koppelingen naar beheerderspagina's worden genegeerd.\n"
+"          <br>\n"
+"          Als een potentiële verbetering kan worden aangebracht aan een "
+"interne link, wordt deze geel gemarkeerd. Alle verbroken links worden rood "
 "gemarkeerd.<br>\n"
-"           <strong>Houd er rekening mee dat links soms vals-positief kunnen "
-"zijn, volg de link altijd handmatig om te bevestigen voordat u wijzigingen "
+"          <strong>Houd er rekening mee dat links soms vals-positief kunnen "
+"zijn, volg altijd de link handmatig om te bevestigen voordat u wijzigingen "
 "aanbrengt!</strong>"
 
 #: admin/settings.php:46
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #: admin/settings.php:47
 msgid "Message"
@@ -57,11 +57,11 @@ msgstr "Post titel (bewerk-link)"
 
 #: admin/settings.php:49
 msgid "Post type"
-msgstr ""
+msgstr "Post type"
 
 #: admin/settings.php:50
 msgid "Element"
-msgstr ""
+msgstr "Element"
 
 #: admin/settings.php:51
 msgid "Original hyperlink"
@@ -111,14 +111,14 @@ msgstr ""
 "Hyperlinks bijgewerkt. Als er nog problemen zijn, verschijnen deze (opnieuw) "
 "in de lijst."
 
-#: linkfinder.php:55 linkfinder.php:56
+#: linkfinder.php:62 linkfinder.php:63
 msgid "Link Finder"
 msgstr "Link Vinder"
 
-#: linkfinder.php:85
+#: linkfinder.php:92
 msgid "Save changes"
 msgstr "Wijzigingen opslaan"
 
-#: linkfinder.php:116
+#: linkfinder.php:123
 msgid "Something went wrong, please try again!"
 msgstr "Er is iets misgegaan, probeer het later opnieuw!"

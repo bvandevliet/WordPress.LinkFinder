@@ -31,7 +31,7 @@ add_action( 'admin_init', function()
     {
       ?>
       <p>
-        <?php echo __( 'Find and fix broken links.', 'linkfinder' ); ?>
+        <?php echo __( 'Find and repair broken links.', 'linkfinder' ); ?>
         <?php _e(
           'Links to admin-pages are ignored.
           <br>

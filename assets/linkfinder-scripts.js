@@ -100,7 +100,6 @@
         .append(oldlink_elem_input_hidden, newlink_input);
 
       a_copy
-        .attr('href', '#')
         .on('click', function ()
         {
           let elem = $(this);
@@ -142,7 +141,7 @@
           });
         })
         .text('>>')
-        .attr('title', 'Follow link and paste final URL to the new hyperlink field.');
+        .attr('title', 'Follow link and paste final URL to the new hyperlink field.'); // HOW TO TRANSLATE ?? !!
 
       let td_copylink = $(document.createElement('td'));
       td_copylink

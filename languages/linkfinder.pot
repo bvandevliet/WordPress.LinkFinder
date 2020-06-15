@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Link Finder\n"
-"POT-Creation-Date: 2020-06-12 11:30+0200\n"
+"POT-Creation-Date: 2020-06-15 11:58+0200\n"
 "PO-Revision-Date: \n"
 "Report-Msgid-Bugs-To: Bob Vandevliet <linkfinder@bvandevliet.nl>\n"
 "Last-Translator: Bob Vandevliet <linkfinder@bvandevliet.nl>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #: admin/settings.php:34
-msgid "Find and fix broken links."
+msgid "Find and repair broken links."
 msgstr ""
 
 #: admin/settings.php:36
@@ -102,14 +102,14 @@ msgid ""
 "(re)appear in the list."
 msgstr ""
 
-#: linkfinder.php:55 linkfinder.php:56
+#: linkfinder.php:62 linkfinder.php:63
 msgid "Link Finder"
 msgstr ""
 
-#: linkfinder.php:85
+#: linkfinder.php:92
 msgid "Save changes"
 msgstr ""
 
-#: linkfinder.php:116
+#: linkfinder.php:123
 msgid "Something went wrong, please try again!"
 msgstr ""
