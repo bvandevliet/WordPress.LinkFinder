@@ -5,7 +5,7 @@ Tags: links, hyperlinks, 404, permalinks, maintenance
 Requires at least: 4.6
 Tested up to: 5.5.3
 Requires PHP: 7.2
-Stable tag: 2020.06.15
+Stable tag: 2020.12.22
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 
@@ -58,6 +58,9 @@ Find and repair broken links throughout your website.
 
 
 == Changelog ==
+
+= 2020.12.22 =
+* Updated Javascript to ES6 standards.
 
 = 2020.06.15 =
 * Added the website's home url as referer to the request headers.
