@@ -1,11 +1,17 @@
 {
   "env": {
-    "browser": true,
-    "commonjs": true,
+    "jquery": true,
     "es6": true,
-    "jquery": true
+    "browser": true
   },
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@wordpress/eslint-plugin/esnext"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "script"
+  },
   "rules": {
     "indent": [
       "error",
@@ -16,7 +22,7 @@
     ],
     "linebreak-style": [
       "error",
-      "windows"
+      "unix"
     ],
     "quotes": [
       "error",

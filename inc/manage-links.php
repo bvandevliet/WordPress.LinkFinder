@@ -1,22 +1,22 @@
 <?php
 
-if( ! defined( 'ABSPATH' ) ) { die(); }
+defined( 'ABSPATH' ) || exit;
 
 
 /**
  * Class for updating hyperlinks in posts.
- * 
+ *
  * @since 2020.06.11
  */
-class linkfinder_manage_site_hyperlinks
+class Linkfinder_Manage_Site_Hyperlinks
 {
   /**
    * Retrieve hyperlinks throughout the website.
-   * 
+   *
    * @since 2020.06.11
-   * 
+   *
    * @global wpdb $wpdb
-   * 
+   *
    * @return array An array of post ID's with hyperlink information, see `let linkinfo`.
    */
   public static function retrieve_hyperlinks()
@@ -34,10 +34,9 @@ class linkfinder_manage_site_hyperlinks
      */
     $postid_hyperlinks = array();
 
-    foreach( $results as $result )
-    {
-      if(
-        $result->post_status != 'publish'
+    foreach ( $results as $result ) {
+      if (
+        $result->post_status !== 'publish'
         || stripos( $result->post_type, 'revision' ) !== false
         // || stripos( $result->post_type, 'draft' ) !== false
         // || stripos( $result->post_status, 'draft' ) !== false
@@ -46,23 +45,23 @@ class linkfinder_manage_site_hyperlinks
       }
 
       // let linkinfo =
-      $postid_hyperlinks[$result->ID] = array(
-        'post_title' => $result->post_title,
-        'post_name' => $result->post_name,
-        'post_type' => $result->post_type,
+      $postid_hyperlinks[ $result->ID ] = array(
+        'post_title'  => $result->post_title,
+        'post_name'   => $result->post_name,
+        'post_type'   => $result->post_type,
         'post_status' => $result->post_status,
         // 'hyperlinks' => [
-        //   [0] => [$link_elem, ...],
-        //   [1] => [$link_before, ...],
-        //   [2] => [$element, ...],
-        //   [3] => [$link_attr, ...],
-        //   [4] => [$link_after, ...],
+        // [0] => [$link_elem, ...],
+        // [1] => [$link_before, ...],
+        // [2] => [$element, ...],
+        // [3] => [$link_attr, ...],
+        // [4] => [$link_after, ...],
         // ],
       );
 
       preg_match_all( '/(<([^<>]+?)\s[^<>]*?(?:href|src)=[\'"])(.*?)([\'"][^<]*?>)/ims', $result->post_content, $link_matches );
 
-      $postid_hyperlinks[$result->ID]['hyperlinks'] = $link_matches;
+      $postid_hyperlinks[ $result->ID ]['hyperlinks'] = $link_matches;
     }
 
     return $postid_hyperlinks;
@@ -70,17 +69,17 @@ class linkfinder_manage_site_hyperlinks
 
   /**
    * Update hyperlinks from a POST request.
-   * 
+   *
    * The `$_POST` parameters must contain "oldlink_elem-{post_id}-{link_index}" and "newlink-{post_id}-{link_index}".
-   * 
+   *
    * @since 2020.06.11
-   * 
+   *
    * @return bool True on success, false if an error occured.
    */
   public static function update_from_post_request()
   {
-    if(
-      $_SERVER['REQUEST_METHOD'] != 'POST'
+    if (
+      $_SERVER['REQUEST_METHOD'] !== 'POST'
     ) {
       return false;
     }
@@ -90,18 +89,17 @@ class linkfinder_manage_site_hyperlinks
     /**
      * Fetch hyperlinks to replace as defined by the user.
      */
-    foreach( $_POST as $parameter => $value )
-    {
+    foreach ( $_POST as $parameter => $value ) {
       /**
        * Sanitize $parameter and $value.
        */
       $parameter = sanitize_key( $parameter );
-      $new_link = esc_url_raw( linkfinder_trim( $value ) );
+      $new_link  = esc_url_raw( linkfinder_trim( wp_unslash( $value ) ) );
 
       /**
        * Verify whether the parameter is relevant for further processing.
        */
-      if(
+      if (
         preg_match( '/^newlink-\d+-\d+$/i', $parameter ) && ! empty( $new_link )
       ) {
         preg_match( '/(\d+)-(\d+)$/', $parameter, $matches_post );
@@ -114,25 +112,23 @@ class linkfinder_manage_site_hyperlinks
           /**
            * Sanitize $oldlink_elem.
            */
-          $oldlink_elem = wp_kses_post( linkfinder_trim( $_POST['oldlink_elem-' . $matches_post[1] . '-' . $matches_post[2]] ) );
-        }
-        catch (Exception $Ex)
-        {
+          $oldlink_elem = wp_kses_post( linkfinder_trim( wp_unslash( $_POST[ 'oldlink_elem-' . $matches_post[1] . '-' . $matches_post[2] ] ) ) );
+        } catch ( Exception $ex ) {
           continue;
         }
 
         /**
          * Validate and create the replacing html element: $newlink_elem.
-         * 
+         *
          * This is done using preg_match() with segment patterns according to the earlier preg_match_all().
          * Also, only the hyperlink segment of $oldlink_elem and $newlink_elem is allowed to be different.
-         * 
+         *
          * If for some reason an invalid html element passes the checks, it should not replace anything, as there should be no matches.
          * If it does match something in the replace query, it already was incorrectly stored in the database in the first place.
          * This module is not intended to repair already existing errors. Always only the hyperlink attribute values will be replaced.
          */
         preg_match( '/(<([^<>]+?)\s[^<>]*?(?:href|src)=[\'"])(.*?)([\'"][^<]*?>)/i', $oldlink_elem, $matches_oldlink );
-        if(
+        if (
           empty( $matches_oldlink[0] ) ||
           empty( $matches_oldlink[1] ) || // link_before
           empty( $matches_oldlink[4] )    // link_after
@@ -142,7 +138,7 @@ class linkfinder_manage_site_hyperlinks
         $newlink_elem = wp_kses_post( $matches_oldlink[1] . $new_link . $matches_oldlink[4] );
 
         $newlinks[] = array(
-          'postid' => $matches_post[1],
+          'postid'       => $matches_post[1],
           'oldlink_elem' => $oldlink_elem,
           'newlink_elem' => $newlink_elem,
         );
@@ -154,9 +150,9 @@ class linkfinder_manage_site_hyperlinks
 
   /**
    * Update internal hyperlinks as absolute url (self-pings allowed) or as relative url (self-pings avoided).
-   * 
+   *
    * @since 2020.06.11
-   * 
+   *
    * @param bool $allow Wheter to allow or avoid internal hyperlinks to trigger self-pings.
    * @return bool True on success, false if an error occured.
    */
@@ -164,27 +160,28 @@ class linkfinder_manage_site_hyperlinks
   {
     $newlinks = array();
 
-    $home_url = rtrim( home_url(), '/' );
+    $home_url    = rtrim( home_url(), '/' );
     $home_domain = preg_replace( '/^(?:https?:\/\/)?(?:www\.)?/i', '', $home_url );
 
-    foreach( self::retrieve_hyperlinks() as $postid => $linkinfo )
-    {
-      for( $index = 0, $length = count( $linkinfo['hyperlinks'][0] ); $index < $length; $index++ )
-      {
+    foreach ( self::retrieve_hyperlinks() as $postid => $linkinfo ) {
+      for ( $index = 0, $length = count( $linkinfo['hyperlinks'][0] ); $index < $length; $index++ ) {
         /**
          * Sanitize $oldlink_elem and the hyperlink.
          */
-        $oldlink_elem = wp_kses_post( linkfinder_trim( $linkinfo['hyperlinks'][0][$index] ) );
-        $new_link = esc_url_raw( linkfinder_trim( $linkinfo['hyperlinks'][3][$index] ) );
+        $oldlink_elem = wp_kses_post( linkfinder_trim( $linkinfo['hyperlinks'][0][ $index ] ) );
+        $new_link     = esc_url_raw( linkfinder_trim( $linkinfo['hyperlinks'][3][ $index ] ) );
 
         /**
          * Rewrite the hyperlinks
          */
         $new_link = preg_replace(
           '/^(\/|\#|\?)|^(?:https?:\/\/)?(?:www\.)?(?:' . preg_quote( $home_domain, '/' ) . ')(\/|\#|\?)?/i',
-          $allow ? $home_url . '$1$2' : '$1$2', $new_link, -1, $count
+          $allow ? $home_url . '$1$2' : '$1$2',
+          $new_link,
+          -1,
+          $count
         );
-        if(
+        if (
           $allow &&
           preg_match( '/^[a-z0-9-]+?\.php/i', $new_link )
         ) {
@@ -195,8 +192,8 @@ class linkfinder_manage_site_hyperlinks
         /**
          * If nothing was replaced, link is not internal, skip to the next iteration without pushing anyting to the array.
          */
-        if(
-          $count == 0
+        if (
+          $count === 0
         ) {
           continue;
         }
@@ -204,10 +201,10 @@ class linkfinder_manage_site_hyperlinks
         /**
          * Create the replacing html element: $newlink_elem.
          */
-        $newlink_elem = wp_kses_post( $linkinfo['hyperlinks'][1][$index] . $new_link . $linkinfo['hyperlinks'][4][$index] );
+        $newlink_elem = wp_kses_post( $linkinfo['hyperlinks'][1][ $index ] . $new_link . $linkinfo['hyperlinks'][4][ $index ] );
 
         $newlinks[] = array(
-          'postid' => $postid,
+          'postid'       => $postid,
           'oldlink_elem' => $oldlink_elem,
           'newlink_elem' => $newlink_elem,
         );
@@ -219,18 +216,18 @@ class linkfinder_manage_site_hyperlinks
 
   /**
    * Replace given links in the database.
-   * 
+   *
    * Made private to restrict free database write access.
-   * 
+   *
    * @since 2020.06.11
-   * 
+   *
    * @global wpdb $wpdb
-   * 
+   *
    * @param array $newlinks {
    *  @type array $newlink {
-   *    @type string  $oldlink_elem    
-   *    @type string  $newlink_elem      
-   *    @type int     $postid 
+   *    @type string  $oldlink_elem
+   *    @type string  $newlink_elem
+   *    @type int     $postid
    *  }, ...
    * }
    * @return bool True on success, false if an error occured.
@@ -239,22 +236,21 @@ class linkfinder_manage_site_hyperlinks
   {
     $success = true;
     global $wpdb;
-    foreach( $newlinks as $newlink )
-    {
+    foreach ( $newlinks as $newlink ) {
       $results = $wpdb->query(
         $wpdb->prepare(
           "UPDATE {$wpdb->posts}
-          SET post_content = REPLACE(post_content, '%s', '%s')
-          WHERE id = '%d';",
-          [
+          SET post_content = REPLACE(post_content, %s, %s)
+          WHERE id = %d;",
+          array(
             $newlink['oldlink_elem'],
             $newlink['newlink_elem'],
             $newlink['postid'],
-          ]
+          )
         )
       );
 
-      if(
+      if (
         $results === false
       ) {
         $success = false;
