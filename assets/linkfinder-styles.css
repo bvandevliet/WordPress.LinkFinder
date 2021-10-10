@@ -7,28 +7,24 @@ div.linkfinder-page input[type=button] {
   vertical-align: baseline !important;
 }
 
-div.linkfinder_table {
-  overflow-x: auto;
-}
-
-div.linkfinder-page .linkfinder_table th,
-div.linkfinder-page .linkfinder_table td {
+div.linkfinder-page table.linkfinder-table th,
+div.linkfinder-page table.linkfinder-table td {
   display: table-cell;
   text-align: left;
   padding: 4px 6px;
 }
 
-div.linkfinder-page .linkfinder_table td {
+div.linkfinder-page table.linkfinder-table td {
   background-color: #fff;
 }
 
-div.linkfinder-page .linkfinder_table tr.linkfinder_tr_warn>td,
-div.linkfinder-page .linkfinder_table td.linkfinder_tr_warn {
+div.linkfinder-page table.linkfinder-table tr.linkfinder-tr-warn>td,
+div.linkfinder-page table.linkfinder-table td.linkfinder-tr-warn {
   background-color: #ffffb3;
 }
 
-div.linkfinder-page .linkfinder_table tr.linkfinder_tr_err>td,
-div.linkfinder-page .linkfinder_table td.linkfinder_tr_err {
+div.linkfinder-page table.linkfinder-table tr.linkfinder-tr-err>td,
+div.linkfinder-page table.linkfinder-table td.linkfinder-tr-err {
   background-color: #ffc6b3;
 }
 

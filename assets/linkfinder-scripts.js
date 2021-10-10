@@ -18,6 +18,9 @@
     internal_link = null
   )
   {
+    home_url = home_url.replace(/\/*$/, '');
+    admin_url = admin_url.replace(/\/*$/, '');
+
     potential_errors++;
     $($('#linkfinder_statusbar span')[2]).text(potential_errors + ' potential errors');
 
@@ -31,7 +34,7 @@
 
       let $a_edit = $('<a/>');
       $a_edit
-        .attr('href', admin_url + 'post.php?post=' + postid + '&action=edit')
+        .attr('href', admin_url + '/post.php?post=' + postid + '&action=edit')
         .attr('target', '_blank')
         .text(linkinfo.post_title);
 
@@ -41,26 +44,17 @@
       let $td_post_type = $('<td/>');
       $td_post_type.text(linkinfo.post_type);
 
+      let $td_post_status = $('<td/>');
+      $td_post_status.text(linkinfo.post_status);
+
       let $td_link_elem = $('<td/>');
-      $td_link_elem.text(linkinfo.hyperlinks[2][index].replace(/(\s|\t|\r|\r?\n)+/g, ' '));
+      $td_link_elem.text(linkinfo.hyperlinks[2][index].replace(/([\s\t\v\0\r]|\r?\n)+/g, ' ').trim());
 
       let $oldlink_elem_input_hidden = $('<input/>');
       $oldlink_elem_input_hidden
         .attr('type', 'hidden')
         .attr('name', 'oldlink_elem-' + postid + '-' + index)
-        .val(linkinfo.hyperlinks[0][index].replace(/(\s|\t|\r|\r?\n)+/g, ' '));
-
-      // let linkbefore_input_hidden = $('<input/>')
-      // linkbefore_input_hidden
-      //   .attr('type', 'hidden')
-      //   .attr('name', 'linkbefore-' + postid + '-' + index)
-      //   .val(linkinfo.hyperlinks[1][index].replace(/(\s|\t|\r|\r?\n)+/g, ' '))
-
-      // let linkafter_input_hidden = $('<input/>')
-      // linkafter_input_hidden
-      //   .attr('type', 'hidden')
-      //   .attr('name', 'linkafter-' + postid + '-' + index)
-      //   .val(linkinfo.hyperlinks[4][index].replace(/(\s|\t|\r|\r?\n)+/g, ' '))
+        .val(linkinfo.hyperlinks[0][index].replace(/([\s\t\v\0\r]|\r?\n)+/g, ' ').trim());
 
       let $a_link = $('<a/>');
       $a_link
@@ -76,7 +70,9 @@
       let $newlink_input = $('<input/>');
       $newlink_input
         .attr('type', 'text')
+        .addClass('regular-text')
         .attr('name', 'newlink-' + postid + '-' + index)
+        .attr('placeholder', '(don\'t change)')
         .on('change', () =>
         {
           if ($newlink_input.val())
@@ -97,6 +93,8 @@
         .append($oldlink_elem_input_hidden, $newlink_input);
 
       $a_copy
+        .text('>>')
+        .attr('title', 'Follow link and paste final URL to the new hyperlink field.') // HOW TO TRANSLATE ?? !!
         .on('click', () =>
         {
           if ($a_copy.hasClass('linkfinder-loader'))
@@ -108,9 +106,11 @@
             $newlink_input.val('');
             return $a_copy.text('>>');
           }
+
           $a_copy
             .html('<div/>')
             .addClass('linkfinder-loader');
+
           $.ajax({
             url: validator_url,
             method: 'POST',
@@ -118,11 +118,27 @@
               link: link_to_validate,
               follow: true,
             },
+            cache: false,
+            timeout: 0,
+            headers: {
+              // 'Referer': home_url,
+              // 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0',
+              'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+              'Pragma': 'no-cache',
+              'Expires': 'Thu, 01 Jan 1970 00:00:00 GMT',
+            },
             // crossDomain: !internal_link,
-            dataType: 'text',
+            dataType: 'json',
             success: (data/*, textStatus, jqXHR*/) =>
             {
-              $newlink_input.val(data);
+              if (data.success)
+              {
+                $newlink_input.val(data.data.effective_url);
+              }
+              else
+              {
+                $newlink_input.val($a_link.text());
+              }
             },
             error: (/*jqXHR, textStatus, errorThrown*/) =>
             {
@@ -135,9 +151,7 @@
                 .removeClass('linkfinder-loader');
             }
           });
-        })
-        .text('>>')
-        .attr('title', 'Follow link and paste final URL to the new hyperlink field.'); // HOW TO TRANSLATE ?? !!
+        });
 
       let $td_copylink = $('<td/>');
       $td_copylink
@@ -146,23 +160,26 @@
         .append($a_copy);
 
       let $tr = $('<tr/>');
-      $tr.append($td_code, $td_status, $td_post_title, $td_post_type, $td_link_elem, $td_link, $td_copylink, $td_newlink);
+      $tr.append($td_code, $td_status, $td_post_title, $td_post_type, $td_post_status, $td_link_elem, $td_link, $td_copylink, $td_newlink);
 
-      if (internal_link === null || internal_link === true)
+      if ((internal_link === null || internal_link === true) || (jqXHR.status >= 300 && jqXHR.status < 401))
       {
-        $tr.addClass('linkfinder_tr_warn');
+        $tr.addClass('linkfinder-tr-warn');
       }
-      if (jqXHR.status >= 400 && jqXHR.status < 500)
+      if (jqXHR.status >= 401 && jqXHR.status < 500)
       {
-        $tr.addClass('linkfinder_tr_err');
+        $tr.addClass('linkfinder-tr-err');
       }
 
-      $('table#linkfinder_table').append($tr);
+      $('table#linkfinder-table').append($tr);
     }
   }
 
   window.linkfinder_process_links = (postid_hyperlinks, home_url, admin_url, validator_url) =>
   {
+    home_url = home_url.replace(/\/*$/, '');
+    admin_url = admin_url.replace(/\/*$/, '');
+
     $.each(postid_hyperlinks, (postid, linkinfo) =>
     {
       total_count += linkinfo.hyperlinks[3].length;
@@ -178,7 +195,7 @@
     {
       $.each(linkinfo.hyperlinks[3], (index, hyperlink) =>
       {
-        hyperlink = $.trim(hyperlink.replace(/(\s|\t|\r|\r?\n)+/g, ' '));
+        hyperlink = hyperlink.replace(/([\s\t\v\0\r]|\r?\n)+/g, ' ').trim();
 
         if (!hyperlink || /^(mailto|tel):/i.test(hyperlink))
         {
@@ -197,9 +214,7 @@
               index,
               hyperlink,
               '',
-              {
-                status: 0
-              },
+              { status: 0 },
               'Empty link'
             );
           }
@@ -213,10 +228,8 @@
         /**
          * Check if the hostname of the link is from the same website, if so, it is an internal link.
          */
-        if (hyperlink.replace(/^(?:https?:\/\/)?(?:www\.)?/gi, '').startsWith(new URL(home_url).hostname.replace(/^www\./gi, '')))
-        {
-          internal_link = true;
-        }
+        internal_link = hyperlink.replace(/^(https?:\/\/)?(www.?\.)?/i, '').startsWith(new URL(home_url).hostname.replace(/^www.?\./i, ''));
+
         /**
          * Check if the link has a protocol.
          */
@@ -229,31 +242,49 @@
         {
           has_protocol = false;
         }
+
         /**
-         * If link has no protocol, it is an internal link.
+         * If link has no protocol, it is expected to be an internal link as well.
          */
-        if (!has_protocol && !/^www\./i.test(hyperlink))
+        if (!has_protocol && !/^www.?\./i.test(hyperlink))
         {
           internal_link = true;
-          if (/^(\/|#|\?)/.test(hyperlink))
+
+          /**
+           * Path is absolute ..
+           */
+          if (hyperlink.startsWith('/'))
           {
-            /**
-             * Path is absolute ..
-             */
-            link_to_validate = new URL(hyperlink, home_url).href;
+            try
+            {
+              link_to_validate = new URL(hyperlink, home_url).href;
+            }
+            catch (err)
+            {
+              link_to_validate = home_url + hyperlink;
+            }
           }
+
+          /**
+           * Path is relative ..
+           */
           else
           {
-            /**
-             * Path is relative ..
-             */
-            link_to_validate = new URL(linkinfo.post_name + '/' + hyperlink, home_url).href;
+            try
+            {
+              link_to_validate = new URL(linkinfo.post_name + '/' + hyperlink, home_url).href;
+            }
+            catch (err)
+            {
+              link_to_validate = home_url + '/' + linkinfo.post_name + '/' + hyperlink;
+            }
           }
         }
+
         /**
          * Ignore link if it is an admin url.
          */
-        if (new URL(link_to_validate).pathname.startsWith(new URL(admin_url).pathname))
+        if (link_to_validate.replace(home_url, '').startsWith(new URL(admin_url).pathname))
         {
           links_processed++;
           $($('#linkfinder_statusbar span')[0]).text(Math.round(links_processed / total_count * 100) + '%');
@@ -269,23 +300,19 @@
           url: validator_url, // internal_link ? link_to_validate : validator_url,
           method: 'POST',
           data: {
-            link: link_to_validate
+            link: link_to_validate,
+          },
+          cache: false,
+          timeout: 0,
+          headers: {
+            // 'Referer': home_url,
+            // 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0',
+            'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+            'Pragma': 'no-cache',
+            'Expires': 'Thu, 01 Jan 1970 00:00:00 GMT',
           },
           // crossDomain: !internal_link,
-          complete: (jqXHR /*, textStatus*/) =>
-          {
-            links_processed++;
-            $($('#linkfinder_statusbar span')[0]).text(Math.round(links_processed / total_count * 100) + '%');
-            $($('#linkfinder_statusbar span')[1]).text(links_processed + '/' + total_count);
-
-            console.log(jqXHR.status + ' | ' + linkinfo.hyperlinks[0][index].replace(/(\s|\t|\r|\r?\n)+/g, ' '));
-          },
-
-          // success: (data) =>
-          // {
-          //   console.log(data)
-          // },
-
+          // dataType: 'json',
           error: (jqXHR, textStatus, errorThrown) =>
           {
             print_link_row(
@@ -301,6 +328,12 @@
               errorThrown,
               internal_link
             );
+          },
+          complete: (/*jqXHR, textStatus*/) =>
+          {
+            links_processed++;
+            $($('#linkfinder_statusbar span')[0]).text(Math.round(links_processed / total_count * 100) + '%');
+            $($('#linkfinder_statusbar span')[1]).text(links_processed + '/' + total_count);
           }
         });
       });

@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name:       Link Finder
- * Version:           2021.09.17
+ * Version:           2021.10.12
  * Requires at least: 4.6
  * Requires PHP:      7.2
  * Description:       Find and repair broken links throughout your website.
@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 2020.06.11
  */
 require dirname( __FILE__ ) . '/inc/functions.php';
-require dirname( __FILE__ ) . '/inc/manage-links.php';
+require dirname( __FILE__ ) . '/inc/class-linkfinder-manage-links.php';
 require dirname( __FILE__ ) . '/admin/settings.php';
 
 
@@ -164,7 +164,8 @@ add_action(
         'linkfinder_scripts', // $handle
         plugin_dir_url( __FILE__ ) . 'assets/linkfinder-scripts.js', // $src
         array( 'jquery' ), // $deps
-        '2020.06.11' // $ver
+        '2021.10.12', // $ver
+        false // $in_footer
       );
     }
   }

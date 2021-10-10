@@ -5,7 +5,7 @@ Tags: links, hyperlinks, 404, permalinks, maintenance
 Requires at least: 4.6
 Tested up to: 5.8
 Requires PHP: 7.2
-Stable tag: 2021.09.17
+Stable tag: 2021.10.12
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 
@@ -51,16 +51,14 @@ Find and repair broken links throughout your website.
 1. Activate the plugin.
 
 
-== Frequently Asked Questions ==
-
-
-== Screenshots ==
-
-
 == Changelog ==
 
+= 2021.10.12 =
+* Javascript bugfixes and improved error handling.
+* Style update.
+
 = 2021.09.17 =
-* ran codebase through wpcs with phpcs.
+* Ran codebase through wpcs with phpcs.
 
 = 2020.12.22 =
 * Updated Javascript to ES6 standards.
@@ -74,3 +72,5 @@ Find and repair broken links throughout your website.
 
 == Upgrade Notice ==
 
+= 2021.10.12 =
+This is a major update and fixes some critical issues.

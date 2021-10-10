@@ -34,7 +34,7 @@ add_action(
       {
         ?>
         <p>
-          <?php _e( 'Find and repair broken links.', 'linkfinder' ); ?>
+          <?php esc_html_e( 'Find and repair broken links.', 'linkfinder' ); ?>
           <?php
           _e(
             'Links to admin-pages are ignored.<br>
@@ -45,23 +45,24 @@ add_action(
           ?>
         </p>
 
-        <p id="linkfinder_statusbar"><b><span></span></b> (<span></span>) &nbsp;|&nbsp; <b><span></span></b></p>
-        <table id="linkfinder_table" class="linkfinder_table">
+        <p id="linkfinder_statusbar"><b><span></span></b> (<span></span>) &nbsp;&bull;&nbsp; <b><span></span></b></p>
+        <table id="linkfinder-table" class="linkfinder-table">
           <tr>
-            <th><?php _e( 'Code', 'linkfinder' ); ?></th>
-            <th><?php _e( 'Message', 'linkfinder' ); ?></th>
-            <th><?php _e( 'Post title (edit-link)', 'linkfinder' ); ?></th>
-            <th><?php _e( 'Post type', 'linkfinder' ); ?></th>
-            <th><?php _e( 'Element', 'linkfinder' ); ?></th>
-            <th><?php _e( 'Original hyperlink', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( 'Code', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( 'Message', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( 'Post title (edit-link)', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( 'Post type', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( 'Post status', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( 'Element', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( 'Original hyperlink', 'linkfinder' ); ?></th>
             <th></th>
-            <th><?php _e( 'New hyperlink', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( 'New hyperlink', 'linkfinder' ); ?></th>
           </tr>
         </table>
 
         <script>
           linkfinder_process_links(
-            <?php echo json_encode( Linkfinder_Manage_Site_Hyperlinks::retrieve_hyperlinks() ); ?>,
+            <?php echo wp_json_encode( Linkfinder_Manage_Links::retrieve_hyperlinks() ); ?>,
             '<?php echo esc_js( home_url() ); ?>',
             '<?php echo esc_js( admin_url() ); ?>',
             '<?php echo esc_js( admin_url( 'admin-ajax.php?action=linkfinder_process_links' ) ); ?>'
@@ -80,39 +81,14 @@ add_action(
  * AJAX hook to include the WordPress functions in a standalone php file.
  *
  * @since 2020.06.11
+ * @since 2021.10.11 Simplified.
  */
 add_action(
   'wp_ajax_linkfinder_process_links',
   function ()
   {
-    if (
-      ! wp_doing_ajax() ||
-      ! is_user_logged_in()
-    ) {
-      wp_die(
-        '',
-        '',
-        array(
-          'response' => 401,
-          'exit'     => true,
-        )
-      );
-    }
-
-    /**
-     * The link-validator sets the global $response_code to use in wp_die() ..
-     */
-    require dirname( __FILE__ ) . '/../inc/link-validator_wp-api.php';
-
-    // die();
-    wp_die(
-      '',
-      '',
-      array(
-        'response' => intval( $response_code ),
-        'exit'     => true,
-      )
-    );
+    require dirname( __FILE__ ) . '/../inc/ajax-link-validator.php';
+    exit;
   }
 );
 
@@ -121,24 +97,29 @@ add_action(
  * Filter the submit button to provide the option for resolving while either allowing or avoiding self-pings.
  *
  * @since 2020.06.11
- *
- * @ignore use `ob_start()` and `ob_get_clean()`?
  */
 add_filter(
   'linkfinder_submit_button',
   function ()
   {
-    $submit_button  = '<p class="submit">';
-    $submit_button .= '<input type="submit" class="button button-primary" name="submit" value="' . esc_attr__( 'Apply changes', 'linkfinder' ) . '" />';
-    $submit_button .= '<br><br>' . __( 'OR apply changes while ..', 'linkfinder' ) . '<br><br>';
-    $submit_button .= '<input type="submit" class="button button-secondary" name="allow_self_pings" value=".. ' . esc_attr__( 'allowing self-pings (default)', 'linkfinder' ) . '" />';
-    $submit_button .= '&nbsp;';
-    $submit_button .= '<input type="submit" class="button button-secondary" name="avoid_self_pings" value=".. ' . esc_attr__( 'avoiding self-pings', 'linkfinder' ) . '" />';
-    $submit_button .= '<br><br>(<a href="https://make.wordpress.org/support/user-manual/building-your-wordpress-community/trackbacks-and-pingbacks/#can-i-stop-self-pings" target="_blank" rel="noopener noreferrer">' . __( 'About self-pings', 'linkfinder' ) . '</a>)<br><br>';
-    $submit_button .= '<strong>' . __( 'Changes are irreversable!', 'linkfinder' ) . '</strong>';
-    $submit_button .= '</p>';
+    ob_start();
+    ?>
 
-    return $submit_button;
+    <p class="submit">
+      <input type="submit" class="button button-primary" name="submit"
+      value="<?php esc_attr_e( 'Apply changes', 'linkfinder' ); ?>" />
+      <br><br><?php esc_html_e( 'OR apply changes while ..', 'linkfinder' ); ?><br><br>
+      <input type="submit" class="button button-secondary" name="allow_self_pings"
+      value=".. <?php esc_attr_e( 'allowing self-pings (default)', 'linkfinder' ); ?>" />
+      &nbsp;
+      <input type="submit" class="button button-secondary" name="avoid_self_pings"
+      value=".. <?php esc_attr_e( 'avoiding self-pings', 'linkfinder' ); ?>" />
+      <br><br>(<a href="https://wordpress.org/support/article/trackbacks-and-pingbacks/#can-i-stop-self-pings" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'About self-pings', 'linkfinder' ); ?></a>)<br><br>
+      <strong><?php esc_html_e( 'Changes are irreversable!', 'linkfinder' ); ?></strong>
+    </p>
+
+    <?php
+    return ob_get_clean();
   }
 );
 
@@ -153,7 +134,7 @@ function linkfinder_after_page_submit_cb()
   /**
    * Update given hyperlinks in database.
    */
-  $success_POST = Linkfinder_Manage_Site_Hyperlinks::update_from_post_request();
+  $success_POST = Linkfinder_Manage_Links::update_from_post_request();
 
   /**
    * Check if internal url should be formatted absolute or relative.
@@ -163,7 +144,7 @@ function linkfinder_after_page_submit_cb()
     ! empty( $_POST['allow_self_pings'] ) ||
     ! empty( $_POST['avoid_self_pings'] )
   ) {
-    $success_SELFPINGS = Linkfinder_Manage_Site_Hyperlinks::allow_selfpings( empty( $_POST['avoid_self_pings'] ) );
+    $success_SELFPINGS = Linkfinder_Manage_Links::allow_selfpings( empty( $_POST['avoid_self_pings'] ) );
   }
 
   /**

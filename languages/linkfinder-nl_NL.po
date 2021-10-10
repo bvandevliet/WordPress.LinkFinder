@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linkfinder\n"
 "Report-Msgid-Bugs-To: Bob Vandevliet <link-finder@bvandevliet.nl>\n"
-"POT-Creation-Date: 2021-10-10 16:02+0200\n"
+"POT-Creation-Date: 2021-10-11 08:32+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bob Vandevliet <link-finder@bvandevliet.nl>\n"
 "Language-Team: link-finder@bvandevliet.nl\n"
@@ -59,42 +59,46 @@ msgid "Post type"
 msgstr "Post type"
 
 #: admin/settings.php:55
+msgid "Post status"
+msgstr "Post status"
+
+#: admin/settings.php:56
 msgid "Element"
 msgstr "Element"
 
-#: admin/settings.php:56
+#: admin/settings.php:57
 msgid "Original hyperlink"
 msgstr "Originele hyperlink"
 
-#: admin/settings.php:58
+#: admin/settings.php:59
 msgid "New hyperlink"
 msgstr "Nieuwe hyperlink"
 
-#: admin/settings.php:132
+#: admin/settings.php:112
 msgid "Apply changes"
 msgstr "Wijzigingen doorvoeren"
 
-#: admin/settings.php:133
+#: admin/settings.php:113
 msgid "OR apply changes while .."
 msgstr "OF wijzigingen toepassen en .."
 
-#: admin/settings.php:134
+#: admin/settings.php:115
 msgid "allowing self-pings (default)"
 msgstr "zelfpingen toestaan (standaard)"
 
-#: admin/settings.php:136
+#: admin/settings.php:118
 msgid "avoiding self-pings"
 msgstr "zelfpingen vermijden"
 
-#: admin/settings.php:137
+#: admin/settings.php:119
 msgid "About self-pings"
 msgstr "Over zelfpingen"
 
-#: admin/settings.php:138
+#: admin/settings.php:120
 msgid "Changes are irreversable!"
 msgstr "Wijzigingen zijn onomkeerbaar!"
 
-#: admin/settings.php:179
+#: admin/settings.php:162
 msgid ""
 "Something went wrong, not all hyperlinks were updated! Remaining issues will "
 "reappear in the list."
@@ -102,7 +106,7 @@ msgstr ""
 "Er is iets misgegaan, niet alle hyperlinks zijn bijgewerkt! Resterende "
 "problemen verschijnen opnieuw in de lijst."
 
-#: admin/settings.php:185
+#: admin/settings.php:168
 msgid ""
 "Hyperlinks updated. If there are any remaining issues, they will (re)appear "
 "in the list."

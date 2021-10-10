@@ -12,5 +12,5 @@ defined( 'ABSPATH' ) || exit;
  */
 function linkfinder_trim( string $string, string $delim = ' ' )
 {
-  return trim( preg_replace( array( '/\s+/', '/\t+/', '/(\r|\r?\n)+/' ), $delim, $string ) );
+  return trim( preg_replace( '/([\s\t\v\0\r]|\r?\n)+/', $delim, $string ) );
 }
