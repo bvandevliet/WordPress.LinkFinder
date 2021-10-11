@@ -2,49 +2,30 @@ a {
   cursor: pointer;
 }
 
-div.linkfinder-page a,
-div.linkfinder-page input[type=button] {
-  vertical-align: baseline !important;
+table.linkfinder-table th,
+table.linkfinder-table td {
+  vertical-align: middle;
 }
 
-div.linkfinder-page table.linkfinder-table th,
-div.linkfinder-page table.linkfinder-table td {
-  display: table-cell;
-  text-align: left;
-  padding: 4px 6px;
+table.linkfinder-table tr:not(:last-child)>td {
+  border-bottom: 1px solid #c3c4c7;
 }
 
-div.linkfinder-page table.linkfinder-table td {
-  background-color: #fff;
-}
-
-div.linkfinder-page table.linkfinder-table tr.linkfinder-tr-warn>td,
-div.linkfinder-page table.linkfinder-table td.linkfinder-tr-warn {
+table.linkfinder-table tr.linkfinder-tr-warn>td,
+table.linkfinder-table td.linkfinder-tr-warn {
   background-color: #ffffb3;
 }
 
-div.linkfinder-page table.linkfinder-table tr.linkfinder-tr-err>td,
-div.linkfinder-page table.linkfinder-table td.linkfinder-tr-err {
+table.linkfinder-table tr.linkfinder-tr-err>td,
+table.linkfinder-table td.linkfinder-tr-err {
   background-color: #ffc6b3;
-}
-
-.linkfinder-green-text {
-  color: green;
-}
-
-.linkfinder-orange-text {
-  color: darkorange;
-}
-
-.linkfinder-red-text {
-  color: red;
 }
 
 .linkfinder-loader {
   display: inline-block;
   width: 20px;
   vertical-align: text-bottom;
-  color: #0071a1;
+  color: #2271b1;
   text-align: center;
   outline: none;
   box-shadow: none !important;
@@ -57,7 +38,7 @@ div.linkfinder-page table.linkfinder-table td.linkfinder-tr-err {
   border-top-style: solid;
   border-top-width: 2px;
   border-radius: 50%;
-  border-color: #0071a1;
+  border-color: #2271b1;
   -webkit-animation: linkfinder-loader 1s linear infinite;
   animation: linkfinder-loader 1s linear infinite;
 }

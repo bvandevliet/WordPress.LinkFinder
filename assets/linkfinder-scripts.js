@@ -171,7 +171,7 @@
         $tr.addClass('linkfinder-tr-err');
       }
 
-      $('table#linkfinder-table').append($tr);
+      $('table#linkfinder-table>tbody').append($tr);
     }
   }
 

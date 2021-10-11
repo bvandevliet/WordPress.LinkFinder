@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: linkfinder\n"
-"POT-Creation-Date: 2021-10-11 08:32+0200\n"
+"POT-Creation-Date: 2021-10-11 16:46+0200\n"
 "PO-Revision-Date: \n"
 "Report-Msgid-Bugs-To: Bob Vandevliet <link-finder@bvandevliet.nl>\n"
 "Last-Translator: Bob Vandevliet <link-finder@bvandevliet.nl>\n"
@@ -70,37 +70,37 @@ msgstr ""
 msgid "New hyperlink"
 msgstr ""
 
-#: admin/settings.php:112
+#: admin/settings.php:113
 msgid "Apply changes"
 msgstr ""
 
-#: admin/settings.php:113
+#: admin/settings.php:114
 msgid "OR apply changes while .."
 msgstr ""
 
-#: admin/settings.php:115
+#: admin/settings.php:116
 msgid "allowing self-pings (default)"
 msgstr ""
 
-#: admin/settings.php:118
+#: admin/settings.php:119
 msgid "avoiding self-pings"
 msgstr ""
 
-#: admin/settings.php:119
+#: admin/settings.php:120
 msgid "About self-pings"
 msgstr ""
 
-#: admin/settings.php:120
+#: admin/settings.php:121
 msgid "Changes are irreversable!"
 msgstr ""
 
-#: admin/settings.php:162
+#: admin/settings.php:163
 msgid ""
 "Something went wrong, not all hyperlinks were updated! Remaining "
 "issues will reappear in the list."
 msgstr ""
 
-#: admin/settings.php:168
+#: admin/settings.php:169
 msgid ""
 "Hyperlinks updated. If there are any remaining issues, they will "
 "(re)appear in the list."

@@ -46,8 +46,8 @@ add_action(
         </p>
 
         <p id="linkfinder_statusbar"><b><span></span></b> (<span></span>) &nbsp;&bull;&nbsp; <b><span></span></b></p>
-        <table id="linkfinder-table" class="linkfinder-table">
-          <tr>
+        <table id="linkfinder-table" class="linkfinder-table wp-list-table widefat striped table-view-list">
+          <thead><tr>
             <th><?php esc_html_e( 'Code', 'linkfinder' ); ?></th>
             <th><?php esc_html_e( 'Message', 'linkfinder' ); ?></th>
             <th><?php esc_html_e( 'Post title (edit-link)', 'linkfinder' ); ?></th>
@@ -57,7 +57,8 @@ add_action(
             <th><?php esc_html_e( 'Original hyperlink', 'linkfinder' ); ?></th>
             <th></th>
             <th><?php esc_html_e( 'New hyperlink', 'linkfinder' ); ?></th>
-          </tr>
+          </tr></thead>
+          <tbody></tbody>
         </table>
 
         <script>

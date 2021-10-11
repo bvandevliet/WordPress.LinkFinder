@@ -158,7 +158,7 @@ add_action(
         'linkfinder_styles', // $handle
         plugin_dir_url( __FILE__ ) . 'assets/linkfinder-styles.css', // $src
         array(), // $deps
-        '2020.06.11' // $ver
+        '2021.10.12' // $ver
       );
       wp_enqueue_script(
         'linkfinder_scripts', // $handle
