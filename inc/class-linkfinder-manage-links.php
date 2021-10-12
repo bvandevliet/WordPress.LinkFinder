@@ -50,11 +50,12 @@ class Linkfinder_Manage_Links
         // [1] => [$link_before, ...],
         // [2] => [$element, ...],
         // [3] => [$link_attr, ...],
-        // [4] => [$link_after, ...],
+        // [4] => [$link_value, ...],
+        // [5] => [$link_after, ...],
         // ],
       );
 
-      preg_match_all( '/(<([^<>]+?)\s[^<>]*?(?:href|src)=[\'"])([^\'"]*?)([\'"][^<>]*?>)/ims', $result->post_content, $link_matches );
+      preg_match_all( '/(<([^<>]+?)\s[^<>]*?(href|src)=[\'"])([^\'"]*?)([\'"][^<>]*?>)/ims', $result->post_content, $link_matches );
 
       $postid_hyperlinks[ $result->ID ]['hyperlinks'] = $link_matches;
     }
@@ -116,15 +117,15 @@ class Linkfinder_Manage_Links
          * If it does match something in the replace query, it already was incorrectly stored in the database in the first place.
          * This module is not intended to repair already existing errors. Always only the hyperlink attribute values will be replaced.
          */
-        preg_match( '/(<([^<>]+?)\s[^<>]*?(?:href|src)=[\'"])([^\'"]*?)([\'"][^<>]*?>)/i', $oldlink_elem, $matches_oldlink );
+        preg_match( '/(<([^<>]+?)\s[^<>]*?(href|src)=[\'"])([^\'"]*?)([\'"][^<>]*?>)/i', $oldlink_elem, $matches_oldlink );
         if (
           empty( $matches_oldlink[0] ) ||
           empty( $matches_oldlink[1] ) || // link_before
-          empty( $matches_oldlink[4] )    // link_after
+          empty( $matches_oldlink[5] )    // link_after
         ) {
           continue;
         }
-        $newlink_elem = wp_kses_post( $matches_oldlink[1] . $new_link . $matches_oldlink[4] );
+        $newlink_elem = wp_kses_post( $matches_oldlink[1] . $new_link . $matches_oldlink[5] );
 
         $newlinks[] = array(
           'postid'       => $matches_post[1],
@@ -158,7 +159,7 @@ class Linkfinder_Manage_Links
          * Sanitize $oldlink_elem and the hyperlink.
          */
         $oldlink_elem = wp_kses_post( linkfinder_trim( $linkinfo['hyperlinks'][0][ $index ] ) );
-        $new_link     = esc_url_raw( linkfinder_trim( $linkinfo['hyperlinks'][3][ $index ] ) );
+        $new_link     = esc_url_raw( linkfinder_trim( $linkinfo['hyperlinks'][4][ $index ] ) );
 
         /**
          * Rewrite the hyperlinks
@@ -190,7 +191,7 @@ class Linkfinder_Manage_Links
         /**
          * Create the replacing html element: $newlink_elem.
          */
-        $newlink_elem = wp_kses_post( $linkinfo['hyperlinks'][1][ $index ] . $new_link . $linkinfo['hyperlinks'][4][ $index ] );
+        $newlink_elem = wp_kses_post( $linkinfo['hyperlinks'][1][ $index ] . $new_link . $linkinfo['hyperlinks'][5][ $index ] );
 
         $newlinks[] = array(
           'postid'       => $postid,

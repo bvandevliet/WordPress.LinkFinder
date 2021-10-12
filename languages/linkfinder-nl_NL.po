@@ -2,11 +2,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: linkfinder\n"
-"Report-Msgid-Bugs-To: Bob Vandevliet <link-finder@bvandevliet.nl>\n"
-"POT-Creation-Date: 2021-10-11 16:46+0200\n"
+"Report-Msgid-Bugs-To: Bob Vandevliet <linkfinder@bvandevliet.nl>\n"
+"POT-Creation-Date: 2021-10-19 20:06+0200\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Bob Vandevliet <link-finder@bvandevliet.nl>\n"
-"Language-Team: link-finder@bvandevliet.nl\n"
+"Last-Translator: Bob Vandevliet <linkfinder@bvandevliet.nl>\n"
+"Language-Team: linkfinder@bvandevliet.nl\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,84 +21,108 @@ msgstr ""
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/settings.php:37
-msgid "Find and repair broken links."
-msgstr "Vind en repareer foutieve links."
-
-#: admin/settings.php:40
+#: admin/settings.php:31
 msgid ""
-"Links to admin-pages are ignored.<br>\n"
-"            If a potential improvement could be made to an internal link, it "
-"is marked yellow. All broken links will be marked red.<br>\n"
+"Link Finder will parse the links in the content of all your posts and pages."
+"<br>\n"
+"            Depending on the size of your website and the amount of links, "
+"this could take a moment.<br>\n"
+"            Links to admin-pages are ignored.<br>\n"
 "            <strong>Please note that sometimes links may appear false-"
 "positive, always follow the link manually to confirm before making changes!</"
 "strong>"
 msgstr ""
-"Koppelingen naar beheerderspagina's worden genegeerd.<br>\n"
-"          Als een potentiële verbetering kan worden aangebracht aan een "
-"interne link, wordt deze geel gemarkeerd. Alle verbroken links worden rood "
-"gemarkeerd.<br>\n"
-"          <strong>Houd er rekening mee dat links soms vals-positief kunnen "
-"zijn, volg altijd de link handmatig om te bevestigen voordat u wijzigingen "
-"aanbrengt!</strong>"
+"Link Vinder zal de links in de inhoud van al uw berichten en pagina's "
+"analyseren.<br>\n"
+"          Afhankelijk van de grootte van uw website en het aantal links, kan "
+"dit even duren.<br>\n"
+"          Koppelingen naar beheerderspagina's worden genegeerd.<br>\n"
+"          <strong>Let op: soms kunnen resultaten vals-positief zijn, volg "
+"altijd handmatig de link ter bevestiging voordat u wijzigingen aanbrengt!</"
+"strong>"
+
+#: admin/settings.php:41
+msgid "All links that resulted in a status code of 400~599."
+msgstr "Alle links die resulteerden in een status code van 400~599."
+
+#: admin/settings.php:43
+msgid "errors"
+msgstr "errors"
+
+#: admin/settings.php:45
+msgid ""
+"All links on published posts that are internal or resulted in a status code "
+"of 300~399."
+msgstr ""
+"Alle links in gepubliceerde inhoud die intern zijn of resulteerden in een "
+"status code van 300~399."
+
+#: admin/settings.php:47
+msgid "warnings"
+msgstr "waarschuwingen"
+
+#: admin/settings.php:49
+msgid "All other links that didn't result in a status code of 200~299."
+msgstr ""
+"Alle overige links die niet resulteerden in een status code van 200~299."
 
 #: admin/settings.php:51
-msgid "Code"
-msgstr "Code"
+msgid "other"
+msgstr "overige"
 
-#: admin/settings.php:52
-msgid "Message"
-msgstr "Melding"
+#: admin/settings.php:58
+msgid "Status code"
+msgstr "Status code"
 
-#: admin/settings.php:53
+#: admin/settings.php:59
 msgid "Post title (edit-link)"
-msgstr "Post titel (bewerk-link)"
+msgstr "Bericht titel (bewerk-link)"
 
-#: admin/settings.php:54
+#: admin/settings.php:60
 msgid "Post type"
-msgstr "Post type"
+msgstr "Bericht type"
 
-#: admin/settings.php:55
+#: admin/settings.php:61
 msgid "Post status"
-msgstr "Post status"
+msgstr "Bericht status"
 
-#: admin/settings.php:56
-msgid "Element"
-msgstr "Element"
+#: admin/settings.php:62
+msgid "<elem attr="
+msgstr "<elem attr="
 
-#: admin/settings.php:57
+#: admin/settings.php:63
 msgid "Original hyperlink"
 msgstr "Originele hyperlink"
 
-#: admin/settings.php:59
+#: admin/settings.php:65
 msgid "New hyperlink"
 msgstr "Nieuwe hyperlink"
 
-#: admin/settings.php:113
+#: admin/settings.php:117
 msgid "Apply changes"
-msgstr "Wijzigingen doorvoeren"
+msgstr "Wijzigingen toepassen"
 
-#: admin/settings.php:114
+#: admin/settings.php:118
 msgid "OR apply changes while .."
 msgstr "OF wijzigingen toepassen en .."
 
-#: admin/settings.php:116
+#: admin/settings.php:120
 msgid "allowing self-pings (default)"
 msgstr "zelfpingen toestaan (standaard)"
 
-#: admin/settings.php:119
+#: admin/settings.php:123
 msgid "avoiding self-pings"
 msgstr "zelfpingen vermijden"
 
-#: admin/settings.php:120
+#: admin/settings.php:124
 msgid "About self-pings"
 msgstr "Over zelfpingen"
 
-#: admin/settings.php:121
+#: admin/settings.php:125
 msgid "Changes are irreversable!"
 msgstr "Wijzigingen zijn onomkeerbaar!"
 
-#: admin/settings.php:163
+#: admin/settings.php:167
 msgid ""
 "Something went wrong, not all hyperlinks were updated! Remaining issues will "
 "reappear in the list."
@@ -106,7 +130,7 @@ msgstr ""
 "Er is iets misgegaan, niet alle hyperlinks zijn bijgewerkt! Resterende "
 "problemen verschijnen opnieuw in de lijst."
 
-#: admin/settings.php:169
+#: admin/settings.php:173
 msgid ""
 "Hyperlinks updated. If there are any remaining issues, they will (re)appear "
 "in the list."
@@ -114,14 +138,29 @@ msgstr ""
 "Hyperlinks bijgewerkt. Als er nog problemen zijn, verschijnen deze (opnieuw) "
 "in de lijst."
 
-#: linkfinder.php:67 linkfinder.php:68
+#: linkfinder.php:66 linkfinder.php:67
 msgid "Link Finder"
 msgstr "Link Vinder"
 
-#: linkfinder.php:97
+#: linkfinder.php:96
 msgid "Save changes"
 msgstr "Wijzigingen opslaan"
 
-#: linkfinder.php:132
+#: linkfinder.php:131
 msgid "Something went wrong, please try again!"
 msgstr "Er is iets misgegaan, probeer het later opnieuw!"
+
+#~ msgid "Find and repair broken links."
+#~ msgstr "Vind en repareer foutieve links."
+
+#~ msgid "Code"
+#~ msgstr "Code"
+
+#~ msgid "Message"
+#~ msgstr "Melding"
+
+#~ msgid "Elem"
+#~ msgstr "Elem"
+
+#~ msgid "Attr"
+#~ msgstr "Attr"

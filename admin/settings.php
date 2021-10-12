@@ -4,14 +4,6 @@ defined( 'ABSPATH' ) || exit;
 
 
 /**
- * @link https://stackoverflow.com/questions/17743337/access-wordpress-functions-in-standalone-plugin-page
- *
- * @link https://developer.wordpress.org/?s=Requests_Response
- * @link https://developer.wordpress.org/?s=WP_HTTP_Requests_Response
- */
-
-
-/**
  * Register setting sections and fields.
  *
  * @since 2020.06.11
@@ -34,26 +26,40 @@ add_action(
       {
         ?>
         <p>
-          <?php esc_html_e( 'Find and repair broken links.', 'linkfinder' ); ?>
           <?php
           _e(
-            'Links to admin-pages are ignored.<br>
-            If a potential improvement could be made to an internal link, it is marked yellow. All broken links will be marked red.<br>
+            'Link Finder will parse the links in the content of all your posts and pages.<br>
+            Depending on the size of your website and the amount of links, this could take a moment.<br>
+            Links to admin-pages are ignored.<br>
             <strong>Please note that sometimes links may appear false-positive, always follow the link manually to confirm before making changes!</strong>',
             'linkfinder'
           );
           ?>
         </p>
 
-        <p id="linkfinder_statusbar"><b><span></span></b> (<span></span>) &nbsp;&bull;&nbsp; <b><span></span></b></p>
-        <table id="linkfinder-table" class="linkfinder-table wp-list-table widefat striped table-view-list">
+        <p>
+          <label title="<?php esc_attr_e( 'All links that resulted in a status code of 400~599.', 'linkfinder' ); ?>">
+            <input type="checkbox" onclick="linkfinder_row_filter('errors', this.checked)" checked />
+          <?php esc_html_e( 'errors', 'linkfinder' ); ?> (<b><span class="linkfinder-error-count">0</span></b>)</label>
+          &nbsp;&bull;&nbsp;
+          <label title="<?php esc_attr_e( 'All links on published posts that are internal or resulted in a status code of 300~399.', 'linkfinder' ); ?>">
+            <input type="checkbox" onclick="linkfinder_row_filter('warnings', this.checked)" />
+          <?php esc_html_e( 'warnings', 'linkfinder' ); ?> (<b><span class="linkfinder-warning-count">0</span></b>)</label>
+          &nbsp;&bull;&nbsp;
+          <label title="<?php esc_attr_e( 'All other links that didn\'t result in a status code of 200~299.', 'linkfinder' ); ?>">
+            <input type="checkbox" onclick="linkfinder_row_filter('other', this.checked)" />
+          <?php esc_html_e( 'other', 'linkfinder' ); ?> (<b><span class="linkfinder-other-count">0</span></b>)</label>
+          &nbsp;&bull;&nbsp;
+          <b><span class="linkfinder-total-percentage">0%</span></b> (<span class="linkfinder-total-count">0/0</span>)
+        </p>
+
+        <table id="linkfinder-table" class="linkfinder-table linkfinder-hide-warnings linkfinder-hide-other wp-list-table widefat table-view-list">
           <thead><tr>
-            <th><?php esc_html_e( 'Code', 'linkfinder' ); ?></th>
-            <th><?php esc_html_e( 'Message', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( 'Status code', 'linkfinder' ); ?></th>
             <th><?php esc_html_e( 'Post title (edit-link)', 'linkfinder' ); ?></th>
             <th><?php esc_html_e( 'Post type', 'linkfinder' ); ?></th>
             <th><?php esc_html_e( 'Post status', 'linkfinder' ); ?></th>
-            <th><?php esc_html_e( 'Element', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( '<elem attr=', 'linkfinder' ); ?></th>
             <th><?php esc_html_e( 'Original hyperlink', 'linkfinder' ); ?></th>
             <th></th>
             <th><?php esc_html_e( 'New hyperlink', 'linkfinder' ); ?></th>

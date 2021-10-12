@@ -2,23 +2,37 @@ a {
   cursor: pointer;
 }
 
+.linkfinder-page label {
+  vertical-align: unset;
+}
+
 table.linkfinder-table th,
 table.linkfinder-table td {
   vertical-align: middle;
 }
 
-table.linkfinder-table tr:not(:last-child)>td {
+table.linkfinder-table tbody>tr:not(:last-child)>td {
   border-bottom: 1px solid #c3c4c7;
 }
 
-table.linkfinder-table tr.linkfinder-tr-warn>td,
-table.linkfinder-table td.linkfinder-tr-warn {
+table.linkfinder-table tr.linkfinder-tr-warning:not(.linkfinder-resolved)>td {
   background-color: #ffffb3;
 }
 
-table.linkfinder-table tr.linkfinder-tr-err>td,
-table.linkfinder-table td.linkfinder-tr-err {
+table.linkfinder-table tr.linkfinder-tr-error:not(.linkfinder-resolved)>td {
   background-color: #ffc6b3;
+}
+
+table.linkfinder-table.linkfinder-hide-errors tbody>tr.linkfinder-tr-error {
+  display: none;
+}
+
+table.linkfinder-table.linkfinder-hide-warnings tbody>tr.linkfinder-tr-warning {
+  display: none;
+}
+
+table.linkfinder-table.linkfinder-hide-other tbody>tr:not(.linkfinder-tr-error):not(.linkfinder-tr-warning) {
+  display: none;
 }
 
 .linkfinder-loader {

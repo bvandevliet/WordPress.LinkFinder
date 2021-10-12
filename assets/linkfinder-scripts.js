@@ -1,10 +1,12 @@
-(function ($)
+($ =>
 {
   let total_count = 0;
   let links_processed = 0;
   let potential_errors = 0;
+  let potential_warnings = 0;
+  let potential_other = 0;
 
-  function print_link_row(
+  const print_link_row = (
     home_url,
     admin_url,
     validator_url,
@@ -16,163 +18,177 @@
     jqXHR,
     errorThrown,
     internal_link = null
-  )
+  ) =>
   {
     home_url = home_url.replace(/\/*$/, '');
     admin_url = admin_url.replace(/\/*$/, '');
 
-    potential_errors++;
-    $($('#linkfinder_statusbar span')[2]).text(potential_errors + ' potential errors');
+    // if (jqXHR.status < 200 || jqXHR.status >= 300)
+    // {
+    let $tr = $('<tr/>');
 
-    if (jqXHR.status < 200 || jqXHR.status >= 300)
-    {
-      let $td_code = $('<td/>');
-      $td_code.text(jqXHR.status);
+    let $td_code = $('<td/>');
+    $td_code.text(jqXHR.status + ' ' + errorThrown);
 
-      let $td_status = $('<td/>');
-      $td_status.text(errorThrown);
+    let $a_edit = $('<a/>');
+    $a_edit
+      .attr('href', admin_url + '/post.php?post=' + postid + '&action=edit')
+      .attr('target', '_blank')
+      .text(linkinfo.post_title);
 
-      let $a_edit = $('<a/>');
-      $a_edit
-        .attr('href', admin_url + '/post.php?post=' + postid + '&action=edit')
-        .attr('target', '_blank')
-        .text(linkinfo.post_title);
+    let $td_post_title = $('<td/>');
+    $td_post_title.append($a_edit);
 
-      let $td_post_title = $('<td/>');
-      $td_post_title.append($a_edit);
+    let $td_post_type = $('<td/>');
+    $td_post_type.text(linkinfo.post_type);
 
-      let $td_post_type = $('<td/>');
-      $td_post_type.text(linkinfo.post_type);
+    let $td_post_status = $('<td/>');
+    $td_post_status.text(linkinfo.post_status);
 
-      let $td_post_status = $('<td/>');
-      $td_post_status.text(linkinfo.post_status);
+    let elem_txt = linkinfo.hyperlinks[2][index].replace(/([\s\t\v\0\r]|\r?\n)+/g, ' ').trim();
+    let attr_txt = linkinfo.hyperlinks[3][index].replace(/([\s\t\v\0\r]|\r?\n)+/g, ' ').trim();
+    let $td_link_elem = $('<td/>');
+    $td_link_elem.text("<" + elem_txt + ' ' + attr_txt + '=');
 
-      let $td_link_elem = $('<td/>');
-      $td_link_elem.text(linkinfo.hyperlinks[2][index].replace(/([\s\t\v\0\r]|\r?\n)+/g, ' ').trim());
+    let $oldlink_elem_input_hidden = $('<input/>');
+    $oldlink_elem_input_hidden
+      .attr('type', 'hidden')
+      .attr('name', 'oldlink_elem-' + postid + '-' + index)
+      .val(linkinfo.hyperlinks[0][index].replace(/([\s\t\v\0\r]|\r?\n)+/g, ' ').trim());
 
-      let $oldlink_elem_input_hidden = $('<input/>');
-      $oldlink_elem_input_hidden
-        .attr('type', 'hidden')
-        .attr('name', 'oldlink_elem-' + postid + '-' + index)
-        .val(linkinfo.hyperlinks[0][index].replace(/([\s\t\v\0\r]|\r?\n)+/g, ' ').trim());
+    let $a_link = $('<a/>');
+    $a_link
+      .attr('href', link_to_validate)
+      .attr('target', '_blank')
+      .text(hyperlink);
 
-      let $a_link = $('<a/>');
-      $a_link
-        .attr('href', link_to_validate)
-        .attr('target', '_blank')
-        .text(hyperlink);
+    let $td_link = $('<td/>');
+    $td_link.append($a_link);
 
-      let $td_link = $('<td/>');
-      $td_link.append($a_link);
+    let $a_copy = $('<a/>');
 
-      let $a_copy = $('<a/>');
-
-      let $newlink_input = $('<input/>');
-      $newlink_input
-        .attr('type', 'text')
-        .addClass('regular-text')
-        .attr('name', 'newlink-' + postid + '-' + index)
-        .attr('placeholder', '(don\'t change)')
-        .on('change', () =>
+    let $newlink_input = $('<input/>');
+    $newlink_input
+      .attr('type', 'text')
+      .addClass('regular-text')
+      .attr('name', 'newlink-' + postid + '-' + index)
+      .attr('placeholder', '(don\'t change)')
+      .on('change', () =>
+      {
+        if ($newlink_input.val())
         {
-          if ($newlink_input.val())
-          {
-            /**
-             * ADD AN ADDITIONAL "PRE-SUBMIT" AJAX CHECK FOR THE PROVIDED NEW LINK ..
-             */
-            $a_copy.text('X');
-          }
-          else
-          {
-            $a_copy.text('>>');
-          }
-        });
-
-      let $td_newlink = $('<td/>');
-      $td_newlink
-        .append($oldlink_elem_input_hidden, $newlink_input);
-
-      $a_copy
-        .text('>>')
-        .attr('title', 'Follow link and paste final URL to the new hyperlink field.') // HOW TO TRANSLATE ?? !!
-        .on('click', () =>
+          /**
+           * ADD AN ADDITIONAL "PRE-SUBMIT" AJAX CHECK FOR THE PROVIDED NEW LINK ..
+           */
+          $tr.addClass('linkfinder-resolved');
+          $a_copy.text('X');
+        }
+        else
         {
-          if ($a_copy.hasClass('linkfinder-loader'))
-          {
-            return;
-          }
-          if ($newlink_input.val())
-          {
-            $newlink_input.val('');
-            return $a_copy.text('>>');
-          }
+          $tr.removeClass('linkfinder-resolved');
+          $a_copy.text('>>');
+        }
+      });
 
-          $a_copy
-            .html('<div/>')
-            .addClass('linkfinder-loader');
+    let $td_newlink = $('<td/>');
+    $td_newlink
+      .append($oldlink_elem_input_hidden, $newlink_input);
 
-          $.ajax({
-            url: validator_url,
-            method: 'POST',
-            data: {
-              link: link_to_validate,
-              follow: true,
-            },
-            cache: false,
-            timeout: 0,
-            headers: {
-              // 'Referer': home_url,
-              // 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0',
-              'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
-              'Pragma': 'no-cache',
-              'Expires': 'Thu, 01 Jan 1970 00:00:00 GMT',
-            },
-            // crossDomain: !internal_link,
-            dataType: 'json',
-            success: (data/*, textStatus, jqXHR*/) =>
+    $a_copy
+      .text('>>')
+      .attr('title', 'Follow link to retrieve final URL.') // HOW TO TRANSLATE ?? !!
+      .on('click', () =>
+      {
+        if ($a_copy.hasClass('linkfinder-loader'))
+        {
+          return;
+        }
+        if ($newlink_input.val())
+        {
+          $newlink_input.val('');
+
+          $tr.removeClass('linkfinder-resolved');
+          $a_copy.text('>>');
+
+          return;
+        }
+
+        $a_copy
+          .html('<div/>')
+          .addClass('linkfinder-loader');
+
+        $.ajax({
+          url: validator_url,
+          method: 'POST',
+          data: {
+            link: link_to_validate,
+            follow: true,
+          },
+          cache: false,
+          timeout: 0,
+          headers: {
+            // 'Referer': home_url,
+            // 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0',
+            'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+            'Pragma': 'no-cache',
+            'Expires': 'Thu, 01 Jan 1970 00:00:00 GMT',
+          },
+          // crossDomain: !internal_link,
+          dataType: 'json',
+          success: (data/*, textStatus, jqXHR*/) =>
+          {
+            if (data.success)
             {
-              if (data.success)
-              {
-                $newlink_input.val(data.data.effective_url);
-              }
-              else
-              {
-                $newlink_input.val($a_link.text());
-              }
-            },
-            error: (/*jqXHR, textStatus, errorThrown*/) =>
+              $newlink_input.val(data.data.effective_url);
+            }
+            else
             {
               $newlink_input.val($a_link.text());
-            },
-            complete: (/*jqXHR, textStatus*/) =>
-            {
-              $a_copy
-                .text('X')
-                .removeClass('linkfinder-loader');
             }
-          });
+          },
+          error: (/*jqXHR, textStatus, errorThrown*/) =>
+          {
+            $newlink_input.val($a_link.text());
+          },
+          complete: (/*jqXHR, textStatus*/) =>
+          {
+            $tr.addClass('linkfinder-resolved');
+            $a_copy
+              .text('X')
+              .removeClass('linkfinder-loader');
+          }
         });
+      });
 
-      let $td_copylink = $('<td/>');
-      $td_copylink
-        .css('width', '3ch')
-        .css('text-align', 'center')
-        .append($a_copy);
+    let $td_copylink = $('<td/>');
+    $td_copylink
+      .css('width', '3ch')
+      .css('text-align', 'center')
+      .append($a_copy);
 
-      let $tr = $('<tr/>');
-      $tr.append($td_code, $td_status, $td_post_title, $td_post_type, $td_post_status, $td_link_elem, $td_link, $td_copylink, $td_newlink);
+    $tr.append($td_code, $td_post_title, $td_post_type, $td_post_status, $td_link_elem, $td_link, $td_copylink, $td_newlink);
 
-      if ((internal_link === null || internal_link === true) || (jqXHR.status >= 300 && jqXHR.status < 401))
-      {
-        $tr.addClass('linkfinder-tr-warn');
-      }
-      if (jqXHR.status >= 401 && jqXHR.status < 500)
-      {
-        $tr.addClass('linkfinder-tr-err');
-      }
+    if (jqXHR.status >= 400 && jqXHR.status < 600)
+    {
+      potential_errors++;
+      $('span.linkfinder-error-count').text(potential_errors);
 
-      $('table#linkfinder-table>tbody').append($tr);
+      $tr.addClass('linkfinder-tr-error');
     }
+    else if (linkinfo.post_status === 'publish' && ((internal_link === null || internal_link === true) || (jqXHR.status >= 300 && jqXHR.status < 400)))
+    {
+      potential_warnings++;
+      $('span.linkfinder-warning-count').text(potential_warnings);
+
+      $tr.addClass('linkfinder-tr-warning');
+    }
+    else
+    {
+      potential_other++;
+      $('span.linkfinder-other-count').text(potential_other);
+    }
+
+    $('table#linkfinder-table>tbody').append($tr);
   }
 
   window.linkfinder_process_links = (postid_hyperlinks, home_url, admin_url, validator_url) =>
@@ -182,26 +198,25 @@
 
     $.each(postid_hyperlinks, (postid, linkinfo) =>
     {
-      total_count += linkinfo.hyperlinks[3].length;
+      total_count += linkinfo.hyperlinks[4].length;
     });
     if (total_count)
     {
-      $($('#linkfinder_statusbar span')[0]).text('0%');
-      $($('#linkfinder_statusbar span')[1]).text('0/' + total_count);
-      $($('#linkfinder_statusbar span')[2]).text('0 potential errors');
+      $('span.linkfinder-total-percentage').text('0%');
+      $('span.linkfinder-total-count').text('0/' + total_count);
     }
 
     $.each(postid_hyperlinks, (postid, linkinfo) =>
     {
-      $.each(linkinfo.hyperlinks[3], (index, hyperlink) =>
+      $.each(linkinfo.hyperlinks[4], (index, hyperlink) =>
       {
         hyperlink = hyperlink.replace(/([\s\t\v\0\r]|\r?\n)+/g, ' ').trim();
 
         if (!hyperlink || /^(mailto|tel):/i.test(hyperlink))
         {
           links_processed++;
-          $($('#linkfinder_statusbar span')[0]).text(Math.round(links_processed / total_count * 100) + '%');
-          $($('#linkfinder_statusbar span')[1]).text(links_processed + '/' + total_count);
+          $('span.linkfinder-total-percentage').text(Math.round(links_processed / total_count * 100) + '%');
+          $('span.linkfinder-total-count').text(links_processed + '/' + total_count);
 
           if (!hyperlink)
           {
@@ -287,8 +302,8 @@
         if (link_to_validate.replace(home_url, '').startsWith(new URL(admin_url).pathname))
         {
           links_processed++;
-          $($('#linkfinder_statusbar span')[0]).text(Math.round(links_processed / total_count * 100) + '%');
-          $($('#linkfinder_statusbar span')[1]).text(links_processed + '/' + total_count);
+          $('span.linkfinder-total-percentage').text(Math.round(links_processed / total_count * 100) + '%');
+          $('span.linkfinder-total-count').text(links_processed + '/' + total_count);
 
           return true;
         }
@@ -332,11 +347,40 @@
           complete: (/*jqXHR, textStatus*/) =>
           {
             links_processed++;
-            $($('#linkfinder_statusbar span')[0]).text(Math.round(links_processed / total_count * 100) + '%');
-            $($('#linkfinder_statusbar span')[1]).text(links_processed + '/' + total_count);
+            $('span.linkfinder-total-percentage').text(Math.round(links_processed / total_count * 100) + '%');
+            $('span.linkfinder-total-count').text(links_processed + '/' + total_count);
           }
         });
       });
     });
+  };
+
+  window.linkfinder_row_filter = (type, show) =>
+  {
+    className = "";
+
+    switch (type)
+    {
+      case 'errors':
+        className = 'linkfinder-hide-errors'
+        break;
+      case 'warnings':
+        className = 'linkfinder-hide-warnings'
+        break;
+      case 'other':
+        className = 'linkfinder-hide-other'
+        break;
+    }
+
+    $table = $('table#linkfinder-table');
+
+    if (show)
+    {
+      $table.removeClass(className);
+    }
+    else
+    {
+      $table.addClass(className);
+    }
   };
 })(jQuery);

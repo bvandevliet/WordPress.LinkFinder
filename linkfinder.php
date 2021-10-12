@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name:       Link Finder
- * Version:           2021.10.12
+ * Version:           2021.10.14
  * Requires at least: 4.6
  * Requires PHP:      7.2
  * Description:       Find and repair broken links throughout your website.
@@ -40,14 +40,13 @@ require dirname( __FILE__ ) . '/admin/settings.php';
  * Force the languages to load.
  *
  * @since 2020.06.11
- *
- * @ignore STILL DOESN'T WORK !!
+ * @since 2021.10.14 Added plugin_basename() which did the trick making it work.
  */
 add_action(
   'init',
   function ()
   {
-    load_plugin_textdomain( 'linkfinder', false, dirname( __FILE__ ) . '/languages' );
+    load_plugin_textdomain( 'linkfinder', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
   }
 );
 
@@ -158,13 +157,13 @@ add_action(
         'linkfinder_styles', // $handle
         plugin_dir_url( __FILE__ ) . 'assets/linkfinder-styles.css', // $src
         array(), // $deps
-        '2021.10.12' // $ver
+        '2021.10.14' // $ver
       );
       wp_enqueue_script(
         'linkfinder_scripts', // $handle
         plugin_dir_url( __FILE__ ) . 'assets/linkfinder-scripts.js', // $src
         array( 'jquery' ), // $deps
-        '2021.10.12', // $ver
+        '2021.10.14', // $ver
         false // $in_footer
       );
     }
