@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name:       Link Finder
- * Version:           2021.10.14
+ * Version:           2021.10.29
  * Requires at least: 4.6
  * Requires PHP:      7.2
  * Description:       Find and repair broken links throughout your website.
@@ -25,6 +25,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
+define( 'LINKFINDER_PLUGIN_VERSION', '2021.10.29' );
 
 /**
  * Include plugin resources.
@@ -144,6 +145,7 @@ add_action(
  * Enqueue admin styles and scripts.
  *
  * @since 2020.06.11
+ * @since 2021.10.29 Dynamic versioning.
  */
 add_action(
   'admin_enqueue_scripts',
@@ -157,13 +159,13 @@ add_action(
         'linkfinder_styles', // $handle
         plugin_dir_url( __FILE__ ) . 'assets/linkfinder-styles.css', // $src
         array(), // $deps
-        '2021.10.14' // $ver
+        LINKFINDER_PLUGIN_VERSION // $ver
       );
       wp_enqueue_script(
         'linkfinder_scripts', // $handle
         plugin_dir_url( __FILE__ ) . 'assets/linkfinder-scripts.js', // $src
         array( 'jquery' ), // $deps
-        '2021.10.14', // $ver
+        LINKFINDER_PLUGIN_VERSION, // $ver
         false // $in_footer
       );
     }

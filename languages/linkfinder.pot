@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: linkfinder\n"
-"POT-Creation-Date: 2021-10-19 20:06+0200\n"
+"POT-Creation-Date: 2021-10-29 07:50+0200\n"
 "PO-Revision-Date: \n"
 "Report-Msgid-Bugs-To: Bob Vandevliet <linkfinder@bvandevliet.nl>\n"
 "Last-Translator: Bob Vandevliet <linkfinder@bvandevliet.nl>\n"
@@ -126,14 +126,14 @@ msgid ""
 "(re)appear in the list."
 msgstr ""
 
-#: linkfinder.php:66 linkfinder.php:67
+#: linkfinder.php:67 linkfinder.php:68
 msgid "Link Finder"
 msgstr ""
 
-#: linkfinder.php:96
+#: linkfinder.php:97
 msgid "Save changes"
 msgstr ""
 
-#: linkfinder.php:131
+#: linkfinder.php:132
 msgid "Something went wrong, please try again!"
 msgstr ""

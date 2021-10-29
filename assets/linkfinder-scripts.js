@@ -23,8 +23,7 @@
     home_url = home_url.replace(/\/*$/, '');
     admin_url = admin_url.replace(/\/*$/, '');
 
-    // if (jqXHR.status < 200 || jqXHR.status >= 300)
-    // {
+    // if (jqXHR.status < 200 || jqXHR.status >= 300) // print_link_row() is only triggered when 'true' ..
     let $tr = $('<tr/>');
 
     let $td_code = $('<td/>');
@@ -127,8 +126,6 @@
           cache: false,
           timeout: 0,
           headers: {
-            // 'Referer': home_url,
-            // 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0',
             'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
             'Pragma': 'no-cache',
             'Expires': 'Thu, 01 Jan 1970 00:00:00 GMT',
@@ -243,7 +240,7 @@
         /**
          * Check if the hostname of the link is from the same website, if so, it is an internal link.
          */
-        internal_link = hyperlink.replace(/^(https?:\/\/)?(www.?\.)?/i, '').startsWith(new URL(home_url).hostname.replace(/^www.?\./i, ''));
+        internal_link = hyperlink.replace(/^(https?:\/\/)?(www.?\.)?/i, '').indexOf(new URL(home_url).hostname.replace(/^www.?\./i, '')) === 0;
 
         /**
          * Check if the link has a protocol.
@@ -268,7 +265,7 @@
           /**
            * Path is absolute ..
            */
-          if (hyperlink.startsWith('/'))
+          if (hyperlink.indexOf('/') === 0)
           {
             try
             {
@@ -299,7 +296,7 @@
         /**
          * Ignore link if it is an admin url.
          */
-        if (link_to_validate.replace(home_url, '').startsWith(new URL(admin_url).pathname))
+        if (link_to_validate.replace(home_url, '').indexOf(new URL(admin_url).pathname) === 0)
         {
           links_processed++;
           $('span.linkfinder-total-percentage').text(Math.round(links_processed / total_count * 100) + '%');
