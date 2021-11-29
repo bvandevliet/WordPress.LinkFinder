@@ -11,16 +11,39 @@ table.linkfinder-table td {
   vertical-align: middle;
 }
 
-table.linkfinder-table tbody>tr:not(:last-child)>td {
+table.linkfinder-table tbody th,
+table.linkfinder-table tbody td {
   border-bottom: 1px solid #c3c4c7;
 }
 
-table.linkfinder-table tr.linkfinder-tr-warning:not(.linkfinder-resolved)>td {
-  background-color: #ffffb3;
+table.linkfinder-table tfoot td,
+table.linkfinder-table tfoot th {
+  border-top: none !important;
 }
 
+table.linkfinder-table tr>th:first-of-type,
+table.linkfinder-table tr>td:first-of-type {
+  border-left: 4px solid transparent;
+}
+
+table.linkfinder-table tr.linkfinder-tr-warning:not(.linkfinder-resolved)>th:first-of-type,
+table.linkfinder-table tr.linkfinder-tr-warning:not(.linkfinder-resolved)>td:first-of-type {
+  border-left: 4px solid #ffdd99;
+}
+
+table.linkfinder-table tr.linkfinder-tr-warning:not(.linkfinder-resolved)>th,
+table.linkfinder-table tr.linkfinder-tr-warning:not(.linkfinder-resolved)>td {
+  background-color: #ffffdf;
+}
+
+table.linkfinder-table tr.linkfinder-tr-error:not(.linkfinder-resolved)>th:first-of-type,
+table.linkfinder-table tr.linkfinder-tr-error:not(.linkfinder-resolved)>td:first-of-type {
+  border-left: 4px solid #ffb3b3;
+}
+
+table.linkfinder-table tr.linkfinder-tr-error:not(.linkfinder-resolved)>th,
 table.linkfinder-table tr.linkfinder-tr-error:not(.linkfinder-resolved)>td {
-  background-color: #ffc6b3;
+  background-color: #ffdfdf;
 }
 
 table.linkfinder-table.linkfinder-hide-errors tbody>tr.linkfinder-tr-error {

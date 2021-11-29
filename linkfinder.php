@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name:       Link Finder
- * Version:           2021.10.29
+ * Version:           2021.11.29
  * Requires at least: 4.6
  * Requires PHP:      7.2
  * Description:       Find and repair broken links throughout your website.
@@ -48,6 +48,26 @@ add_action(
   function ()
   {
     load_plugin_textdomain( 'linkfinder', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+  }
+);
+
+
+/**
+ * Append subtile call-to-action write review link below plugin at the plugins admin page.
+ *
+ * @since 2021.11.29
+ */
+add_filter(
+  'plugin_action_links_' . plugin_basename( __FILE__ ),
+  function ( $actions )
+  {
+    array_unshift(
+      $actions,
+      '<a href="' . admin_url( 'tools.php?page=linkfinder' ) . '">' . __( 'Find them!', 'linkfinder' ) . '</a>',
+      '<a href="https://wordpress.org/plugins/link-finder/#reviews" target="_blank" rel="noopener">' . __( 'Rate', 'linkfinder' ) . ' &#9733;</a>'
+    );
+
+    return $actions;
   }
 );
 
@@ -155,18 +175,15 @@ add_action(
       isset( $_GET['page'] ) &&
       $_GET['page'] === 'linkfinder'
     ) {
-      wp_enqueue_style(
-        'linkfinder_styles', // $handle
-        plugin_dir_url( __FILE__ ) . 'assets/linkfinder-styles.css', // $src
-        array(), // $deps
-        LINKFINDER_PLUGIN_VERSION // $ver
-      );
-      wp_enqueue_script(
-        'linkfinder_scripts', // $handle
-        plugin_dir_url( __FILE__ ) . 'assets/linkfinder-scripts.js', // $src
-        array( 'jquery' ), // $deps
-        LINKFINDER_PLUGIN_VERSION, // $ver
-        false // $in_footer
+      wp_enqueue_style( 'linkfinder_styles', plugin_dir_url( __FILE__ ) . 'assets/linkfinder-styles.css', array(), LINKFINDER_PLUGIN_VERSION );
+      wp_enqueue_script( 'linkfinder_scripts', plugin_dir_url( __FILE__ ) . 'assets/linkfinder-scripts.js', array( 'jquery' ), LINKFINDER_PLUGIN_VERSION, false );
+      wp_localize_script(
+        'linkfinder_scripts',
+        'translations',
+        array(
+          'dont_change' => __( '(don\'t change)', 'linkfinder' ),
+          'follow_link' => __( 'Follow link to retrieve final URL ..', 'linkfinder' ),
+        )
       );
     }
   }

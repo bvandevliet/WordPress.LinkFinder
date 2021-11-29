@@ -53,7 +53,7 @@ add_action(
           <b><span class="linkfinder-total-percentage">0%</span></b> (<span class="linkfinder-total-count">0/0</span>)
         </p>
 
-        <table id="linkfinder-table" class="linkfinder-table linkfinder-hide-warnings linkfinder-hide-other wp-list-table widefat table-view-list">
+        <table id="linkfinder-table" class="linkfinder-table linkfinder-hide-warnings linkfinder-hide-other wp-list-table widefat">
           <thead><tr>
             <th><?php esc_html_e( 'Status code', 'linkfinder' ); ?></th>
             <th><?php esc_html_e( 'Post title (edit-link)', 'linkfinder' ); ?></th>
@@ -65,6 +65,16 @@ add_action(
             <th><?php esc_html_e( 'New hyperlink', 'linkfinder' ); ?></th>
           </tr></thead>
           <tbody></tbody>
+          <tfoot><tr>
+            <th><?php esc_html_e( 'Status code', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( 'Post title (edit-link)', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( 'Post type', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( 'Post status', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( '<elem attr=', 'linkfinder' ); ?></th>
+            <th><?php esc_html_e( 'Original hyperlink', 'linkfinder' ); ?></th>
+            <th></th>
+            <th><?php esc_html_e( 'New hyperlink', 'linkfinder' ); ?></th>
+          </tr></tfoot>
         </table>
 
         <script>
@@ -115,14 +125,20 @@ add_filter(
     <p class="submit">
       <input type="submit" class="button button-primary" name="submit"
       value="<?php esc_attr_e( 'Apply changes', 'linkfinder' ); ?>" />
-      <br><br><?php esc_html_e( 'OR apply changes while ..', 'linkfinder' ); ?><br><br>
+      <br><br>
+      <?php esc_html_e( 'OR apply changes while ..', 'linkfinder' ); ?>
+      <br><br>
       <input type="submit" class="button button-secondary" name="allow_self_pings"
       value=".. <?php esc_attr_e( 'allowing self-pings (default)', 'linkfinder' ); ?>" />
       &nbsp;
       <input type="submit" class="button button-secondary" name="avoid_self_pings"
       value=".. <?php esc_attr_e( 'avoiding self-pings', 'linkfinder' ); ?>" />
-      <br><br>(<a href="https://wordpress.org/support/article/trackbacks-and-pingbacks/#can-i-stop-self-pings" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'About self-pings', 'linkfinder' ); ?></a>)<br><br>
+      <br><br>
+      (<a href="https://wordpress.org/support/article/trackbacks-and-pingbacks/#can-i-stop-self-pings" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'About self-pings', 'linkfinder' ); ?></a>)
+      <br><br>
       <strong><?php esc_html_e( 'Changes are irreversable!', 'linkfinder' ); ?></strong>
+      <br><br>
+      <a href="https://wordpress.org/plugins/link-finder/#reviews" target="_blank" rel="noopener"><?php esc_attr_e( 'Rate this plugin', 'wpessentials' ); ?> &#9733;</a>
     </p>
 
     <?php

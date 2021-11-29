@@ -71,7 +71,7 @@
       .attr('type', 'text')
       .addClass('regular-text')
       .attr('name', 'newlink-' + postid + '-' + index)
-      .attr('placeholder', '(don\'t change)')
+      .attr('placeholder', translations.dont_change)
       .on('change', () =>
       {
         if ($newlink_input.val())
@@ -95,7 +95,7 @@
 
     $a_copy
       .text('>>')
-      .attr('title', 'Follow link to retrieve final URL.') // HOW TO TRANSLATE ?? !!
+      .attr('title', translations.follow_link)
       .on('click', () =>
       {
         if ($a_copy.hasClass('linkfinder-loader'))

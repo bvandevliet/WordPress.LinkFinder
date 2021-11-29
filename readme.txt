@@ -5,7 +5,7 @@ Tags: links, hyperlinks, 404, permalinks, maintenance
 Requires at least: 4.6
 Tested up to: 5.8
 Requires PHP: 7.2
-Stable tag: 2021.10.29
+Stable tag: 2021.11.29
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 

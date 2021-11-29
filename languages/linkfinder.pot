@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: linkfinder\n"
-"POT-Creation-Date: 2021-10-29 07:50+0200\n"
+"POT-Creation-Date: 2021-11-29 15:27+0100\n"
 "PO-Revision-Date: \n"
 "Report-Msgid-Bugs-To: Bob Vandevliet <linkfinder@bvandevliet.nl>\n"
 "Last-Translator: Bob Vandevliet <linkfinder@bvandevliet.nl>\n"
@@ -94,46 +94,62 @@ msgstr ""
 msgid "Apply changes"
 msgstr ""
 
-#: admin/settings.php:118
+#: admin/settings.php:119
 msgid "OR apply changes while .."
 msgstr ""
 
-#: admin/settings.php:120
+#: admin/settings.php:122
 msgid "allowing self-pings (default)"
 msgstr ""
 
-#: admin/settings.php:123
+#: admin/settings.php:125
 msgid "avoiding self-pings"
 msgstr ""
 
-#: admin/settings.php:124
+#: admin/settings.php:127
 msgid "About self-pings"
 msgstr ""
 
-#: admin/settings.php:125
+#: admin/settings.php:129
 msgid "Changes are irreversable!"
 msgstr ""
 
-#: admin/settings.php:167
+#: admin/settings.php:131
+msgid "Rate this plugin"
+msgstr ""
+
+#: admin/settings.php:173
 msgid ""
 "Something went wrong, not all hyperlinks were updated! Remaining "
 "issues will reappear in the list."
 msgstr ""
 
-#: admin/settings.php:173
+#: admin/settings.php:179
 msgid ""
 "Hyperlinks updated. If there are any remaining issues, they will "
 "(re)appear in the list."
 msgstr ""
 
-#: linkfinder.php:67 linkfinder.php:68
+#: linkfinder.php:66
+msgid "Find them!"
+msgstr ""
+
+#: linkfinder.php:67
+msgid "Rate"
+msgstr ""
+
+#: linkfinder.php:87 linkfinder.php:88
 msgid "Link Finder"
 msgstr ""
 
-#: linkfinder.php:97
+#: linkfinder.php:117
 msgid "Save changes"
 msgstr ""
 
-#: linkfinder.php:132
+#: linkfinder.php:152
 msgid "Something went wrong, please try again!"
+msgstr ""
+
+#: linkfinder.php:184
+msgid "Follow link to retrieve final URL .."
 msgstr ""
