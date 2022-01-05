@@ -5,7 +5,7 @@ Tags: links, hyperlinks, 404, permalinks, maintenance
 Requires at least: 4.6
 Tested up to: 5.8
 Requires PHP: 7.2
-Stable tag: 2021.11.29
+Stable tag: 2022.01.05
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 
@@ -52,6 +52,9 @@ Find and repair broken links throughout your website.
 
 
 == Changelog ==
+
+= 2022.01.05 =
+* Added feature to sort the table.
 
 = 2021.10.29 =
 * Replaced some Javascript functions to also fully support Internet Explorer (>=5.5).

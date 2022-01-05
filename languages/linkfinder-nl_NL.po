@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linkfinder\n"
 "Report-Msgid-Bugs-To: Bob Vandevliet <linkfinder@bvandevliet.nl>\n"
-"POT-Creation-Date: 2021-11-29 15:27+0100\n"
+"POT-Creation-Date: 2022-01-05 13:56+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bob Vandevliet <linkfinder@bvandevliet.nl>\n"
 "Language-Team: linkfinder@bvandevliet.nl\n"
@@ -70,63 +70,63 @@ msgstr ""
 msgid "other"
 msgstr "overige"
 
-#: admin/settings.php:58
+#: admin/settings.php:58 admin/settings.php:69
 msgid "Status code"
 msgstr "Status code"
 
-#: admin/settings.php:59
+#: admin/settings.php:59 admin/settings.php:70
 msgid "Post title (edit-link)"
 msgstr "Bericht titel (bewerk-link)"
 
-#: admin/settings.php:60
+#: admin/settings.php:60 admin/settings.php:71
 msgid "Post type"
 msgstr "Bericht type"
 
-#: admin/settings.php:61
+#: admin/settings.php:61 admin/settings.php:72
 msgid "Post status"
 msgstr "Bericht status"
 
-#: admin/settings.php:62
+#: admin/settings.php:62 admin/settings.php:73
 msgid "<elem attr="
 msgstr "<elem attr="
 
-#: admin/settings.php:63
+#: admin/settings.php:63 admin/settings.php:74
 msgid "Original hyperlink"
 msgstr "Originele hyperlink"
 
-#: admin/settings.php:65
+#: admin/settings.php:65 admin/settings.php:76
 msgid "New hyperlink"
 msgstr "Nieuwe hyperlink"
 
-#: admin/settings.php:117
+#: admin/settings.php:127
 msgid "Apply changes"
 msgstr "Wijzigingen toepassen"
 
-#: admin/settings.php:119
+#: admin/settings.php:129
 msgid "OR apply changes while .."
 msgstr "OF wijzigingen toepassen en .."
 
-#: admin/settings.php:122
+#: admin/settings.php:132
 msgid "allowing self-pings (default)"
 msgstr "zelfpingen toestaan (standaard)"
 
-#: admin/settings.php:125
+#: admin/settings.php:135
 msgid "avoiding self-pings"
 msgstr "zelfpingen vermijden"
 
-#: admin/settings.php:127
+#: admin/settings.php:137
 msgid "About self-pings"
 msgstr "Over zelfpingen"
 
-#: admin/settings.php:129
+#: admin/settings.php:139
 msgid "Changes are irreversable!"
 msgstr "Wijzigingen zijn onomkeerbaar!"
 
-#: admin/settings.php:131
+#: admin/settings.php:141
 msgid "Rate this plugin"
 msgstr "Beoordeel deze plugin"
 
-#: admin/settings.php:173
+#: admin/settings.php:183
 msgid ""
 "Something went wrong, not all hyperlinks were updated! Remaining issues will "
 "reappear in the list."
@@ -134,7 +134,7 @@ msgstr ""
 "Er is iets misgegaan, niet alle hyperlinks zijn bijgewerkt! Resterende "
 "problemen verschijnen opnieuw in de lijst."
 
-#: admin/settings.php:179
+#: admin/settings.php:189
 msgid ""
 "Hyperlinks updated. If there are any remaining issues, they will (re)appear "
 "in the list."
@@ -163,6 +163,10 @@ msgid "Something went wrong, please try again!"
 msgstr "Er is iets misgegaan, probeer het later opnieuw!"
 
 #: linkfinder.php:184
+msgid "(don't change)"
+msgstr "(laat ongewijzigd)"
+
+#: linkfinder.php:185
 msgid "Follow link to retrieve final URL .."
 msgstr "Volg link om de uiteindelijke URL op te halen .."
 

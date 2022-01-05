@@ -1,5 +1,43 @@
 ($ =>
 {
+  const sort_element = e =>
+  {
+    let $th = $(e.target);
+    let i = $th.index();
+    let $table = $th.parents('table').first();
+    $th = $table.find('th:nth-child(' + (i + 1) + ')');
+
+    let $sort_elem = $table.find('tbody>tr');
+    let order = $th.hasClass('linkfinder-sorted-asc') ? 'DESC' : 'ASC';
+
+    $th.add($th.siblings()).removeClass(['linkfinder-sorted-asc', 'linkfinder-sorted-desc']);
+    $th.addClass('linkfinder-sorted-' + order.toLowerCase());
+
+    const do_sort = (a, b) =>
+    {
+      text_a = $(a).find('td').eq(i).text();
+      text_b = $(b).find('td').eq(i).text();
+
+      return text_a.localeCompare(text_b, undefined,
+        {
+          numeric: true,
+          sensitivity: 'base',
+        });
+    };
+
+    $sort_elem.get()
+      .sort((a, b) => order === 'DESC' ? do_sort(b, a) : do_sort(a, b))
+      .forEach(cur_elem =>
+      {
+        $(cur_elem).parent().append(cur_elem);
+      });
+  };
+
+  $(() =>
+  {
+    $('th.linkfinder-sortable').on('click', sort_element);
+  });
+
   let total_count = 0;
   let links_processed = 0;
   let potential_errors = 0;

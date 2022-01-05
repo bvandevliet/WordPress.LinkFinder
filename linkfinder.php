@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name:       Link Finder
- * Version:           2021.11.29
+ * Version:           2022.01.05
  * Requires at least: 4.6
  * Requires PHP:      7.2
  * Description:       Find and repair broken links throughout your website.
@@ -25,7 +25,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'LINKFINDER_PLUGIN_VERSION', '2021.10.29' );
+define( 'LINKFINDER_PLUGIN_VERSION', '2022.01.05' );
 
 /**
  * Include plugin resources.

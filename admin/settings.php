@@ -55,23 +55,23 @@ add_action(
 
         <table id="linkfinder-table" class="linkfinder-table linkfinder-hide-warnings linkfinder-hide-other wp-list-table widefat">
           <thead><tr>
-            <th><?php esc_html_e( 'Status code', 'linkfinder' ); ?></th>
-            <th><?php esc_html_e( 'Post title (edit-link)', 'linkfinder' ); ?></th>
-            <th><?php esc_html_e( 'Post type', 'linkfinder' ); ?></th>
-            <th><?php esc_html_e( 'Post status', 'linkfinder' ); ?></th>
-            <th><?php esc_html_e( '<elem attr=', 'linkfinder' ); ?></th>
-            <th><?php esc_html_e( 'Original hyperlink', 'linkfinder' ); ?></th>
+            <th class="linkfinder-sortable"><?php esc_html_e( 'Status code', 'linkfinder' ); ?></th>
+            <th class="linkfinder-sortable"><?php esc_html_e( 'Post title (edit-link)', 'linkfinder' ); ?></th>
+            <th class="linkfinder-sortable"><?php esc_html_e( 'Post type', 'linkfinder' ); ?></th>
+            <th class="linkfinder-sortable"><?php esc_html_e( 'Post status', 'linkfinder' ); ?></th>
+            <th class="linkfinder-sortable"><?php esc_html_e( '<elem attr=', 'linkfinder' ); ?></th>
+            <th class="linkfinder-sortable"><?php esc_html_e( 'Original hyperlink', 'linkfinder' ); ?></th>
             <th></th>
             <th><?php esc_html_e( 'New hyperlink', 'linkfinder' ); ?></th>
           </tr></thead>
           <tbody></tbody>
           <tfoot><tr>
-            <th><?php esc_html_e( 'Status code', 'linkfinder' ); ?></th>
-            <th><?php esc_html_e( 'Post title (edit-link)', 'linkfinder' ); ?></th>
-            <th><?php esc_html_e( 'Post type', 'linkfinder' ); ?></th>
-            <th><?php esc_html_e( 'Post status', 'linkfinder' ); ?></th>
-            <th><?php esc_html_e( '<elem attr=', 'linkfinder' ); ?></th>
-            <th><?php esc_html_e( 'Original hyperlink', 'linkfinder' ); ?></th>
+            <th class="linkfinder-sortable"><?php esc_html_e( 'Status code', 'linkfinder' ); ?></th>
+            <th class="linkfinder-sortable"><?php esc_html_e( 'Post title (edit-link)', 'linkfinder' ); ?></th>
+            <th class="linkfinder-sortable"><?php esc_html_e( 'Post type', 'linkfinder' ); ?></th>
+            <th class="linkfinder-sortable"><?php esc_html_e( 'Post status', 'linkfinder' ); ?></th>
+            <th class="linkfinder-sortable"><?php esc_html_e( '<elem attr=', 'linkfinder' ); ?></th>
+            <th class="linkfinder-sortable"><?php esc_html_e( 'Original hyperlink', 'linkfinder' ); ?></th>
             <th></th>
             <th><?php esc_html_e( 'New hyperlink', 'linkfinder' ); ?></th>
           </tr></tfoot>
