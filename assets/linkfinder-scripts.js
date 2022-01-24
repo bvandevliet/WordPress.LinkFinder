@@ -1,36 +1,33 @@
+/* eslint-disable no-undef */
 ($ =>
 {
   const sort_element = e =>
   {
     let $th = $(e.target);
-    let i = $th.index();
-    let $table = $th.parents('table').first();
-    $th = $table.find('th:nth-child(' + (i + 1) + ')');
+    const i = $th.index();
+    const $table = $th.parents('table').first();
+    $th = $table.find(`th:nth-child(${i + 1})`);
 
-    let $sort_elem = $table.find('tbody>tr');
-    let order = $th.hasClass('linkfinder-sorted-asc') ? 'DESC' : 'ASC';
+    const $sort_elem = $table.find('tbody>tr');
+    const order = $th.hasClass('linkfinder-sorted-asc') ? 'DESC' : 'ASC';
 
     $th.add($th.siblings()).removeClass(['linkfinder-sorted-asc', 'linkfinder-sorted-desc']);
-    $th.addClass('linkfinder-sorted-' + order.toLowerCase());
+    $th.addClass(`linkfinder-sorted-${order.toLowerCase()}`);
 
     const do_sort = (a, b) =>
     {
-      text_a = $(a).find('td').eq(i).text();
-      text_b = $(b).find('td').eq(i).text();
+      const text_a = $(a).find('td').eq(i).text();
+      const text_b = $(b).find('td').eq(i).text();
 
-      return text_a.localeCompare(text_b, undefined,
-        {
-          numeric: true,
-          sensitivity: 'base',
-        });
+      return text_a.localeCompare(text_b, undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      });
     };
 
     $sort_elem.get()
       .sort((a, b) => order === 'DESC' ? do_sort(b, a) : do_sort(a, b))
-      .forEach(cur_elem =>
-      {
-        $(cur_elem).parent().append(cur_elem);
-      });
+      .forEach(cur_elem => $(cur_elem).parent().append(cur_elem));
   };
 
   $(() =>
@@ -55,60 +52,60 @@
     link_to_validate,
     jqXHR,
     errorThrown,
-    internal_link = null
+    internal_link = null,
   ) =>
   {
-    home_url = home_url.replace(/\/*$/, '');
-    admin_url = admin_url.replace(/\/*$/, '');
+    home_url = home_url.replace(/\/*$/u, '');
+    admin_url = admin_url.replace(/\/*$/u, '');
 
     // if (jqXHR.status < 200 || jqXHR.status >= 300) // print_link_row() is only triggered when 'true' ..
-    let $tr = $('<tr/>');
+    const $tr = $('<tr/>');
 
-    let $td_code = $('<td/>');
-    $td_code.text(jqXHR.status + ' ' + errorThrown);
+    const $td_code = $('<td/>');
+    $td_code.text(`${jqXHR.status} ${errorThrown}`);
 
-    let $a_edit = $('<a/>');
+    const $a_edit = $('<a/>');
     $a_edit
-      .attr('href', admin_url + '/post.php?post=' + postid + '&action=edit')
+      .attr('href', `${admin_url}/post.php?post=${postid}&action=edit`)
       .attr('target', '_blank')
       .text(linkinfo.post_title);
 
-    let $td_post_title = $('<td/>');
+    const $td_post_title = $('<td/>');
     $td_post_title.append($a_edit);
 
-    let $td_post_type = $('<td/>');
+    const $td_post_type = $('<td/>');
     $td_post_type.text(linkinfo.post_type);
 
-    let $td_post_status = $('<td/>');
+    const $td_post_status = $('<td/>');
     $td_post_status.text(linkinfo.post_status);
 
-    let elem_txt = linkinfo.hyperlinks[2][index].replace(/([\s\t\v\0\r]|\r?\n)+/g, ' ').trim();
-    let attr_txt = linkinfo.hyperlinks[3][index].replace(/([\s\t\v\0\r]|\r?\n)+/g, ' ').trim();
-    let $td_link_elem = $('<td/>');
-    $td_link_elem.text("<" + elem_txt + ' ' + attr_txt + '=');
+    const elem_txt = linkinfo.hyperlinks[2][index].replace(/([\s\t\v\0\r]|\r?\n)+/gu, ' ').trim();
+    const attr_txt = linkinfo.hyperlinks[3][index].replace(/([\s\t\v\0\r]|\r?\n)+/gu, ' ').trim();
+    const $td_link_elem = $('<td/>');
+    $td_link_elem.text(`<${elem_txt} ${attr_txt}=`);
 
-    let $oldlink_elem_input_hidden = $('<input/>');
+    const $oldlink_elem_input_hidden = $('<input/>');
     $oldlink_elem_input_hidden
       .attr('type', 'hidden')
-      .attr('name', 'oldlink_elem-' + postid + '-' + index)
-      .val(linkinfo.hyperlinks[0][index].replace(/([\s\t\v\0\r]|\r?\n)+/g, ' ').trim());
+      .attr('name', `oldlink_elem-${postid}-${index}`)
+      .val(linkinfo.hyperlinks[0][index].replace(/([\s\t\v\0\r]|\r?\n)+/gu, ' ').trim());
 
-    let $a_link = $('<a/>');
+    const $a_link = $('<a/>');
     $a_link
       .attr('href', link_to_validate)
       .attr('target', '_blank')
       .text(hyperlink);
 
-    let $td_link = $('<td/>');
+    const $td_link = $('<td/>');
     $td_link.append($a_link);
 
-    let $a_copy = $('<a/>');
+    const $a_copy = $('<a/>');
 
-    let $newlink_input = $('<input/>');
+    const $newlink_input = $('<input/>');
     $newlink_input
       .attr('type', 'text')
       .addClass('regular-text')
-      .attr('name', 'newlink-' + postid + '-' + index)
+      .attr('name', `newlink-${postid}-${index}`)
       .attr('placeholder', translations.dont_change)
       .on('change', () =>
       {
@@ -127,7 +124,7 @@
         }
       });
 
-    let $td_newlink = $('<td/>');
+    const $td_newlink = $('<td/>');
     $td_newlink
       .append($oldlink_elem_input_hidden, $newlink_input);
 
@@ -165,12 +162,12 @@
           timeout: 0,
           headers: {
             'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
-            'Pragma': 'no-cache',
-            'Expires': 'Thu, 01 Jan 1970 00:00:00 GMT',
+            Pragma: 'no-cache',
+            Expires: 'Thu, 01 Jan 1970 00:00:00 GMT',
           },
           // crossDomain: !internal_link,
           dataType: 'json',
-          success: (data/*, textStatus, jqXHR*/) =>
+          success: (data/* , textStatus, jqXHR*/) =>
           {
             if (data.success)
             {
@@ -181,21 +178,21 @@
               $newlink_input.val($a_link.text());
             }
           },
-          error: (/*jqXHR, textStatus, errorThrown*/) =>
+          error: (/* jqXHR, textStatus, errorThrown*/) =>
           {
             $newlink_input.val($a_link.text());
           },
-          complete: (/*jqXHR, textStatus*/) =>
+          complete: (/* jqXHR, textStatus*/) =>
           {
             $tr.addClass('linkfinder-resolved');
             $a_copy
               .text('X')
               .removeClass('linkfinder-loader');
-          }
+          },
         });
       });
 
-    let $td_copylink = $('<td/>');
+    const $td_copylink = $('<td/>');
     $td_copylink
       .css('width', '3ch')
       .css('text-align', 'center')
@@ -224,12 +221,12 @@
     }
 
     $('table#linkfinder-table>tbody').append($tr);
-  }
+  };
 
   window.linkfinder_process_links = (postid_hyperlinks, home_url, admin_url, validator_url) =>
   {
-    home_url = home_url.replace(/\/*$/, '');
-    admin_url = admin_url.replace(/\/*$/, '');
+    home_url = home_url.replace(/\/*$/u, '');
+    admin_url = admin_url.replace(/\/*$/u, '');
 
     $.each(postid_hyperlinks, (postid, linkinfo) =>
     {
@@ -238,20 +235,20 @@
     if (total_count)
     {
       $('span.linkfinder-total-percentage').text('0%');
-      $('span.linkfinder-total-count').text('0/' + total_count);
+      $('span.linkfinder-total-count').text(`0/${total_count}`);
     }
 
     $.each(postid_hyperlinks, (postid, linkinfo) =>
     {
       $.each(linkinfo.hyperlinks[4], (index, hyperlink) =>
       {
-        hyperlink = hyperlink.replace(/([\s\t\v\0\r]|\r?\n)+/g, ' ').trim();
+        hyperlink = hyperlink.replace(/([\s\t\v\0\r]|\r?\n)+/gu, ' ').trim();
 
-        if (!hyperlink || /^(mailto|tel):/i.test(hyperlink))
+        if (!hyperlink || /^(mailto|tel):/iu.test(hyperlink))
         {
           links_processed++;
-          $('span.linkfinder-total-percentage').text(Math.round(links_processed / total_count * 100) + '%');
-          $('span.linkfinder-total-count').text(links_processed + '/' + total_count);
+          $('span.linkfinder-total-percentage').text(`${Math.round(links_processed / total_count * 100)}%`);
+          $('span.linkfinder-total-count').text(`${links_processed}/${total_count}`);
 
           if (!hyperlink)
           {
@@ -265,7 +262,7 @@
               hyperlink,
               '',
               { status: 0 },
-              'Empty link'
+              'Empty link',
             );
           }
 
@@ -278,7 +275,7 @@
         /**
          * Check if the hostname of the link is from the same website, if so, it is an internal link.
          */
-        internal_link = hyperlink.replace(/^(https?:\/\/)?(www.?\.)?/i, '').indexOf(new URL(home_url).hostname.replace(/^www.?\./i, '')) === 0;
+        internal_link = hyperlink.replace(/^(https?:\/\/)?(www.?\.)?/iu, '').indexOf(new URL(home_url).hostname.replace(/^www.?\./iu, '')) === 0;
 
         /**
          * Check if the link has a protocol.
@@ -296,7 +293,7 @@
         /**
          * If link has no protocol, it is expected to be an internal link as well.
          */
-        if (!has_protocol && !/^www.?\./i.test(hyperlink))
+        if (!has_protocol && !/^www.?\./iu.test(hyperlink))
         {
           internal_link = true;
 
@@ -322,11 +319,11 @@
           {
             try
             {
-              link_to_validate = new URL(linkinfo.post_name + '/' + hyperlink, home_url).href;
+              link_to_validate = new URL(`${linkinfo.post_name}/${hyperlink}`, home_url).href;
             }
             catch (err)
             {
-              link_to_validate = home_url + '/' + linkinfo.post_name + '/' + hyperlink;
+              link_to_validate = `${home_url}/${linkinfo.post_name}/${hyperlink}`;
             }
           }
         }
@@ -337,8 +334,8 @@
         if (link_to_validate.replace(home_url, '').indexOf(new URL(admin_url).pathname) === 0)
         {
           links_processed++;
-          $('span.linkfinder-total-percentage').text(Math.round(links_processed / total_count * 100) + '%');
-          $('span.linkfinder-total-count').text(links_processed + '/' + total_count);
+          $('span.linkfinder-total-percentage').text(`${Math.round(links_processed / total_count * 100)}%`);
+          $('span.linkfinder-total-count').text(`${links_processed}/${total_count}`);
 
           return true;
         }
@@ -358,8 +355,8 @@
             // 'Referer': home_url,
             // 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0',
             'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
-            'Pragma': 'no-cache',
-            'Expires': 'Thu, 01 Jan 1970 00:00:00 GMT',
+            Pragma: 'no-cache',
+            Expires: 'Thu, 01 Jan 1970 00:00:00 GMT',
           },
           // crossDomain: !internal_link,
           // dataType: 'json',
@@ -376,15 +373,15 @@
               link_to_validate,
               jqXHR,
               errorThrown,
-              internal_link
+              internal_link,
             );
           },
-          complete: (/*jqXHR, textStatus*/) =>
+          complete: (/* jqXHR, textStatus*/) =>
           {
             links_processed++;
-            $('span.linkfinder-total-percentage').text(Math.round(links_processed / total_count * 100) + '%');
-            $('span.linkfinder-total-count').text(links_processed + '/' + total_count);
-          }
+            $('span.linkfinder-total-percentage').text(`${Math.round(links_processed / total_count * 100)}%`);
+            $('span.linkfinder-total-count').text(`${links_processed}/${total_count}`);
+          },
         });
       });
     });
@@ -392,18 +389,18 @@
 
   window.linkfinder_row_filter = (type, show) =>
   {
-    className = "";
+    className = '';
 
     switch (type)
     {
       case 'errors':
-        className = 'linkfinder-hide-errors'
+        className = 'linkfinder-hide-errors';
         break;
       case 'warnings':
-        className = 'linkfinder-hide-warnings'
+        className = 'linkfinder-hide-warnings';
         break;
       case 'other':
-        className = 'linkfinder-hide-other'
+        className = 'linkfinder-hide-other';
         break;
     }
 
