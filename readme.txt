@@ -3,7 +3,7 @@
 Contributors: bvandevliet
 Tags: links, hyperlinks, 404, permalinks, maintenance
 Requires at least: 4.6
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 7.2
 Stable tag: 2022.01.05
 License: GPLv2 or later
