@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 ($ =>
 {
   const sort_element = e =>
@@ -55,7 +54,9 @@
     internal_link = null,
   ) =>
   {
+    // eslint-disable-next-line no-param-reassign
     home_url = home_url.replace(/\/*$/u, '');
+    // eslint-disable-next-line no-param-reassign
     admin_url = admin_url.replace(/\/*$/u, '');
 
     // if (jqXHR.status < 200 || jqXHR.status >= 300) // print_link_row() is only triggered when 'true' ..
@@ -106,6 +107,7 @@
       .attr('type', 'text')
       .addClass('regular-text')
       .attr('name', `newlink-${postid}-${index}`)
+      // eslint-disable-next-line no-undef
       .attr('placeholder', translations.dont_change)
       .on('change', () =>
       {
@@ -130,6 +132,7 @@
 
     $a_copy
       .text('>>')
+      // eslint-disable-next-line no-undef
       .attr('title', translations.follow_link)
       .on('click', () =>
       {
@@ -137,6 +140,7 @@
         {
           return;
         }
+
         if ($newlink_input.val())
         {
           $newlink_input.val('');
@@ -225,13 +229,16 @@
 
   window.linkfinder_process_links = (postid_hyperlinks, home_url, admin_url, validator_url) =>
   {
+    // eslint-disable-next-line no-param-reassign
     home_url = home_url.replace(/\/*$/u, '');
+    // eslint-disable-next-line no-param-reassign
     admin_url = admin_url.replace(/\/*$/u, '');
 
     $.each(postid_hyperlinks, (postid, linkinfo) =>
     {
       total_count += linkinfo.hyperlinks[4].length;
     });
+
     if (total_count)
     {
       $('span.linkfinder-total-percentage').text('0%');
@@ -240,8 +247,10 @@
 
     $.each(postid_hyperlinks, (postid, linkinfo) =>
     {
+      // eslint-disable-next-line consistent-return
       $.each(linkinfo.hyperlinks[4], (index, hyperlink) =>
       {
+        // eslint-disable-next-line no-param-reassign
         hyperlink = hyperlink.replace(/([\s\t\v\0\r]|\r?\n)+/gu, ' ').trim();
 
         if (!hyperlink || /^(mailto|tel):/iu.test(hyperlink))
@@ -281,8 +290,10 @@
          * Check if the link has a protocol.
          */
         let has_protocol = true;
+
         try
         {
+          // eslint-disable-next-line no-unused-expressions
           new URL(hyperlink).protocol;
         }
         catch (err)
@@ -389,22 +400,27 @@
 
   window.linkfinder_row_filter = (type, show) =>
   {
-    className = '';
+    let className = '';
 
     switch (type)
     {
       case 'errors':
         className = 'linkfinder-hide-errors';
+
         break;
+
       case 'warnings':
         className = 'linkfinder-hide-warnings';
+
         break;
+
       case 'other':
         className = 'linkfinder-hide-other';
+
         break;
     }
 
-    $table = $('table#linkfinder-table');
+    const $table = $('table#linkfinder-table');
 
     if (show)
     {
