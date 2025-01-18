@@ -1,0 +1,60 @@
+name: Deploy and Release Plugin
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - '**'
+
+env:
+  IS_PUSH: ${{ github.event_name == 'push' }}
+  IS_MAIN: ${{ github.event.repository.default_branch == github.ref_name }}
+
+jobs:
+  tag-and-deploy:
+    name: Tag and deploy
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@main
+      -
+        name: Get Metadata
+        id: meta
+        run: |
+          branchName=${GITHUB_REF#refs/heads/}
+          version=$(date +"%Y.%m.%d")
+          preRelease=false
+          if [[ ${{ env.IS_MAIN }} == "false" ]]; then
+            version="$version-$branchName"
+            preRelease=true
+          fi
+          echo "BRANCH_NAME = $branchName"
+          echo "VERSION     = $version"
+          echo "PRERELEASE  = $preRelease"
+          echo "BRANCH_NAME=$branchName" >> $GITHUB_OUTPUT
+          echo "VERSION=$version"        >> $GITHUB_OUTPUT
+          echo "PRERELEASE=$preRelease"  >> $GITHUB_OUTPUT
+      -
+        name: Create Git tag
+        if: env.IS_MAIN == 'true'
+        continue-on-error: true
+        run: |
+          git tag v${{ steps.meta.outputs.VERSION }}
+          git push origin v${{ steps.meta.outputs.VERSION }}
+      -
+        name: Install SVN
+        shell: bash
+        run: sudo apt install subversion -y
+      -
+        name: Deploy to WordPress
+        # if: env.IS_MAIN == 'true' && steps.meta.outputs.VERSION != ''
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          dry-run: true # set to false !!
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: ${{ vars.PLUGIN_SLUG }}
+          VERSION: ${{ steps.meta.outputs.VERSION }}
