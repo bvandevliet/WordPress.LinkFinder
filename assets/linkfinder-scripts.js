@@ -107,15 +107,12 @@
       .attr('type', 'text')
       .addClass('regular-text')
       .attr('name', `newlink-${postid}-${index}`)
-      // eslint-disable-next-line no-undef
-      .attr('placeholder', translations.dont_change)
+      .attr('placeholder', window.translations.dont_change)
       .on('change', () =>
       {
         if ($newlink_input.val())
         {
-          /**
-           * ADD AN ADDITIONAL "PRE-SUBMIT" AJAX CHECK FOR THE PROVIDED NEW LINK ..
-           */
+          // TODO: Add an additional "pre-submit" ajax check for the provided new link ..
           $tr.addClass('linkfinder-resolved');
           $a_copy.text('X');
         }
@@ -132,8 +129,7 @@
 
     $a_copy
       .text('>>')
-      // eslint-disable-next-line no-undef
-      .attr('title', translations.follow_link)
+      .attr('title', window.translations.follow_link)
       .on('click', () =>
       {
         if ($a_copy.hasClass('linkfinder-loader'))
@@ -171,7 +167,7 @@
           },
           // crossDomain: !internal_link,
           dataType: 'json',
-          success: (data/* , textStatus, jqXHR*/) =>
+          success: data =>
           {
             if (data.success)
             {
@@ -182,11 +178,11 @@
               $newlink_input.val($a_link.text());
             }
           },
-          error: (/* jqXHR, textStatus, errorThrown*/) =>
+          error: () =>
           {
             $newlink_input.val($a_link.text());
           },
-          complete: (/* jqXHR, textStatus*/) =>
+          complete: () =>
           {
             $tr.addClass('linkfinder-resolved');
             $a_copy
@@ -281,14 +277,10 @@
         let internal_link = false;
         let link_to_validate = hyperlink;
 
-        /**
-         * Check if the hostname of the link is from the same website, if so, it is an internal link.
-         */
+        // Check if the hostname of the link is from the same website, if so, it is an internal link.
         internal_link = hyperlink.replace(/^(https?:\/\/)?(www.?\.)?/iu, '').indexOf(new URL(home_url).hostname.replace(/^www.?\./iu, '')) === 0;
 
-        /**
-         * Check if the link has a protocol.
-         */
+        // Check if the link has a protocol.
         let has_protocol = true;
 
         try
@@ -296,52 +288,44 @@
           // eslint-disable-next-line no-unused-expressions
           new URL(hyperlink).protocol;
         }
-        catch (err)
+        catch
         {
           has_protocol = false;
         }
 
-        /**
-         * If link has no protocol, it is expected to be an internal link as well.
-         */
+        // If link has no protocol, it is expected to be an internal link as well.
         if (!has_protocol && !/^www.?\./iu.test(hyperlink))
         {
           internal_link = true;
 
-          /**
-           * Path is absolute ..
-           */
+          // Path is absolute ..
           if (hyperlink.indexOf('/') === 0)
           {
             try
             {
               link_to_validate = new URL(hyperlink, home_url).href;
             }
-            catch (err)
+            catch
             {
               link_to_validate = home_url + hyperlink;
             }
           }
 
-          /**
-           * Path is relative ..
-           */
+          // Path is relative ..
           else
           {
             try
             {
               link_to_validate = new URL(`${linkinfo.post_name}/${hyperlink}`, home_url).href;
             }
-            catch (err)
+            catch
             {
               link_to_validate = `${home_url}/${linkinfo.post_name}/${hyperlink}`;
             }
           }
         }
 
-        /**
-         * Ignore link if it is an admin url.
-         */
+        // Ignore link if it is an admin url.
         if (link_to_validate.replace(home_url, '').indexOf(new URL(admin_url).pathname) === 0)
         {
           links_processed++;
@@ -354,6 +338,7 @@
         // OVERRIDE !!
         // internal_link = false
 
+        // TODO: In chunks of 10 or 20 links to prevent server overload ..
         $.ajax({
           url: validator_url, // internal_link ? link_to_validate : validator_url,
           method: 'POST',
@@ -364,14 +349,14 @@
           timeout: 0,
           headers: {
             // 'Referer': home_url,
-            // 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0',
+            // 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 Edg/132.0.0.0',
             'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
             Pragma: 'no-cache',
             Expires: 'Thu, 01 Jan 1970 00:00:00 GMT',
           },
           // crossDomain: !internal_link,
           // dataType: 'json',
-          error: (jqXHR, textStatus, errorThrown) =>
+          error: (jqXHR, _, errorThrown) =>
           {
             print_link_row(
               home_url,
@@ -387,7 +372,7 @@
               internal_link,
             );
           },
-          complete: (/* jqXHR, textStatus*/) =>
+          complete: () =>
           {
             links_processed++;
             $('span.linkfinder-total-percentage').text(`${Math.round(links_processed / total_count * 100)}%`);

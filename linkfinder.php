@@ -13,14 +13,9 @@
  * Text Domain:       linkfinder
  * Domain Path:       /languages
  *
- * @ignore local storage to skip re-validation of ignored links on form submit
- * @ignore add link text table column
- * @ignore add option to prevent search engines from following a link
- * @ignore add option to display a broken link differently (e.g. line-through)
- * @ignore add option to unlink, remove the link but keep the link text
- * @ignore does the plugin also detects missing images ??
- *
- * @ignore keywords: detect/find and repair/fix missing images and broken or redirected links
+ * @ignore TODO: Add link text table column.
+ * @ignore TODO: Add option to prevent search engines from following a link.
+ * @ignore TODO: Add option to unlink, remove the link but keep the link text.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -84,15 +79,13 @@ add_action(
   function ()
   {
     $hookname = add_management_page(
-      __( 'Link Finder', 'linkfinder' ), // $page_title
-      __( 'Link Finder', 'linkfinder' ), // $menu_title
-      'edit_pages', // $capability
-      'linkfinder', // $menu_slug
+      __( 'Link Finder', 'linkfinder' ),
+      __( 'Link Finder', 'linkfinder' ),
+      'edit_pages',
+      'linkfinder',
       function ()
       {
-        /**
-         * Print submit messages.
-         */
+        // Print submit messages.
         settings_errors( 'linkfinder' );
 
         ?>
@@ -100,14 +93,10 @@ add_action(
           <h1>Link Finder</h1>
           <form action="<?php echo htmlspecialchars( $_SERVER['REQUEST_URI'] ); ?>" method="post">
             <?php
-            /**
-             * Output security fields for the registered setting.
-             */
-            settings_fields( 'linkfinder' ); // $option_group
-            /**
-             * Output setting sections and their fields.
-             */
-            do_settings_sections( 'linkfinder' ); // $page
+            // Output security fields for the registered setting.
+            settings_fields( 'linkfinder' );
+            // Output setting sections and their fields.
+            do_settings_sections( 'linkfinder' );
 
             /**
              * Filter the submit button.
@@ -119,7 +108,7 @@ add_action(
           </form>
         </div>
         <?php
-      } // $function
+      }
     );
 
     /**
@@ -131,21 +120,14 @@ add_action(
       'load-' . $hookname,
       function ()
       {
-        if ( $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
+        if ( $_SERVER['REQUEST_METHOD'] !== 'POST' )
+        {
           return;
         }
 
-        /**
-         * Check if request is valid and permitted.
-         */
-        if (
-          empty( $_POST['_wpnonce'] ) ||
-          empty( $_POST['action'] )
-          || wp_verify_nonce(
-            $_POST['_wpnonce'], // $nonce
-            'linkfinder-options' // $action, refer to https://developer.wordpress.org/reference/functions/settings_fields/
-          ) === false
-        ) {
+        // Check if request is valid and permitted.
+        if ( empty( $_POST['_wpnonce'] ) || empty( $_POST['action'] ) || wp_verify_nonce( $_POST['_wpnonce'], 'linkfinder-options' ) === false )
+        {
           add_settings_error(
             'linkfinder',
             'linkfinder_invalidpost',
@@ -171,10 +153,8 @@ add_action(
   'admin_enqueue_scripts',
   function ()
   {
-    if (
-      isset( $_GET['page'] ) &&
-      $_GET['page'] === 'linkfinder'
-    ) {
+    if ( isset( $_GET['page'] ) && $_GET['page'] === 'linkfinder' )
+    {
       wp_enqueue_style( 'linkfinder_styles', plugin_dir_url( __FILE__ ) . 'assets/linkfinder-styles.css', array(), LINKFINDER_PLUGIN_VERSION );
       wp_enqueue_script( 'linkfinder_scripts', plugin_dir_url( __FILE__ ) . 'assets/linkfinder-scripts.js', array( 'jquery' ), LINKFINDER_PLUGIN_VERSION, false );
       wp_localize_script(

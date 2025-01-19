@@ -26,6 +26,10 @@ Find and repair broken links throughout your website.
   To not affect the speed of your website, Link Finder does not perform active monitoring. It also does not store any additional data to the database. Use it as a tool to manually check for broken links regularly or after changing permalinks or moving your website to another domain.
 </p>
 
+<p>
+  If you would like to contribute, please visit the repo at https://github.com/bvandevliet/WordPress.LinkFinder and open an issue or pull request.
+</p>
+
 
 == Installation ==
 

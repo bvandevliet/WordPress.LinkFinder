@@ -3,15 +3,18 @@
 defined( 'ABSPATH' ) || exit;
 
 
-if ( ! is_user_logged_in() ) {
+if ( ! is_user_logged_in() )
+{
   die( 401 );
 }
 
-if ( ! wp_doing_ajax() ) {
+if ( ! wp_doing_ajax() )
+{
   die( 403 );
 }
 
-if ( empty( $_POST['link'] ) ) {
+if ( empty( $_POST['link'] ) )
+{
   die( 400 );
 }
 
@@ -43,7 +46,6 @@ add_filter(
       array(
         'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
         'Pragma'        => 'no-cache',
-        // 'Expires'       => gmdate( 'D, d M Y H:i:s \G\M\T', time() ),
       ),
       $headers
     );
@@ -76,18 +78,21 @@ add_action(
   }
 );
 
+// TODO: Handle ajax payload as a chunk of links ..
 $response = wp_remote_get(
   $url,
   array(
     'redirection' => $follow ? 20 : 0,
     'blocking'    => true,
-    'user-agent'  => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0',
+    'user-agent'  => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 Edg/132.0.0.0',
     'headers'     => wp_parse_args( array( 'Referer' => home_url() ), wp_get_nocache_headers() ),
   )
 );
 
-if ( '' === $response_code = wp_remote_retrieve_response_code( $response ) ) {
-  if ( $follow ) {
+if ( '' === $response_code = wp_remote_retrieve_response_code( $response ) )
+{
+  if ( $follow )
+  {
     wp_send_json_error( array( 'error' => 'An error occured.' ), 400 );
     exit;
   }
@@ -102,7 +107,9 @@ if ( '' === $response_code = wp_remote_retrieve_response_code( $response ) ) {
 }
 
 $data['response_code'] = $response_code;
-if ( $follow ) {
+
+if ( $follow )
+{
   wp_send_json_success( $data, 200 );
   exit;
 }

@@ -20,8 +20,8 @@ add_action(
      * @since 2020.06.11
      */
     add_settings_section(
-      'linkfinder_section', // $id*
-      null, // $title*
+      'linkfinder_section',
+      null,
       function ()
       {
         ?>
@@ -82,13 +82,12 @@ add_action(
             <?php echo wp_json_encode( Linkfinder_Manage_Links::retrieve_hyperlinks() ); ?>,
             '<?php echo esc_js( home_url() ); ?>',
             '<?php echo esc_js( admin_url() ); ?>',
-            '<?php echo esc_js( admin_url( 'admin-ajax.php?action=linkfinder_process_links' ) ); ?>'
-          )
+            '<?php echo esc_js( admin_url( 'admin-ajax.php?action=linkfinder_process_links' ) ); ?>')
         </script>
 
         <?php
-      }, // $callback*
-      'linkfinder' // $page*
+      },
+      'linkfinder'
     );
   }
 );
@@ -163,26 +162,24 @@ function linkfinder_after_page_submit_cb()
    * Check if internal url should be formatted absolute or relative.
    */
   $success_SELFPINGS = true;
-  if (
-    ! empty( $_POST['allow_self_pings'] ) ||
-    ! empty( $_POST['avoid_self_pings'] )
-  ) {
+  if ( ! empty( $_POST['allow_self_pings'] ) || ! empty( $_POST['avoid_self_pings'] ) )
+  {
     $success_SELFPINGS = Linkfinder_Manage_Links::allow_selfpings( empty( $_POST['avoid_self_pings'] ) );
   }
 
   /**
    * Set error messages.
    */
-  if (
-    ! $success_POST ||
-    ! $success_SELFPINGS
-  ) {
+  if ( ! $success_POST || ! $success_SELFPINGS )
+  {
     add_settings_error(
       'linkfinder',
       'linkfinder_errormsg',
       __( 'Something went wrong, not all hyperlinks were updated! Remaining issues will reappear in the list.', 'linkfinder' )
     );
-  } else {
+  }
+  else
+  {
     add_settings_error(
       'linkfinder',
       'linkfinder_successmsg',
