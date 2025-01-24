@@ -20,9 +20,18 @@
     },
     "autoload": {
         "files": [
-            "inc/functions.php",
-            "inc/class-linkfinder-manage-links.php",
-            "admin/settings.php"
+            "includes/functions.php",
+            "hooks/ajax-link-validator.php",
+            "hooks/admin-settings.php"
         ]
+    },
+    "extra": {
+        "wordpress-autoloader": {
+            "autoload": {
+                "Linkfinder\\": [
+                    "includes/"
+                ]
+            }
+        }
     }
 }

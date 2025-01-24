@@ -1,5 +1,7 @@
 <?php
 
+namespace Linkfinder;
+
 defined( 'ABSPATH' ) || exit;
 
 
@@ -8,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2020.06.11
  */
-class Linkfinder_Manage_Links
+class Manage_Links
 {
   /**
    * Retrieve hyperlinks throughout the website.
@@ -18,7 +20,7 @@ class Linkfinder_Manage_Links
    * @global wpdb $wpdb
    *
    * @return array An array of post ID's with hyperlink information, see `let linkinfo`.
-   * 
+   *
    * @ignore TODO: In chunks of 10 or 20 posts to prevent database overload ..
    */
   public static function retrieve_hyperlinks()
