@@ -25,9 +25,10 @@ jobs:
         run: |
           branchName=${GITHUB_REF#refs/heads/}
           version=$(date +"%Y.%m.%d")
+          tagName=$version
           preRelease=false
           if [[ ${{ env.IS_MAIN }} == "false" ]]; then
-            version="$version-$branchName"
+            tagName="$version-$branchName"
             preRelease=true
           fi
           echo "BRANCH_NAME = $branchName"
@@ -35,13 +36,23 @@ jobs:
           echo "PRERELEASE  = $preRelease"
           echo "BRANCH_NAME=$branchName" >> $GITHUB_OUTPUT
           echo "VERSION=$version"        >> $GITHUB_OUTPUT
+          echo "TAG_NAME=$tagName"       >> $GITHUB_OUTPUT
           echo "PRERELEASE=$preRelease"  >> $GITHUB_OUTPUT
       -
         name: Update version in files
         env:
           VERSION: ${{ steps.meta.outputs.VERSION }}
+          TAG_NAME: ${{ steps.meta.outputs.TAG_NAME }}
         run: |
-          find . -type f \( -name "*.php" -o -name "readme.txt" \) -exec sed -i "s/\[\[VERSION\]\]/$VERSION/g" {} +
+          find . -type f -name 'composer.json' -exec sed -i "s/\"00.00.00\"/\"$VERSION\"/g" {} +
+          find . -type f \( -name '*.php' -o -name 'readme.txt' \) -exec sed -i "s/\[\[VERSION\]\]/$TAG_NAME/g" {} +
+      -
+        name: Install dependencies
+        uses: php-actions/composer@v6
+        with:
+          dev: no
+          args: --optimize-autoloader
+          php_version: '8.2'
       -
         name: Create Git tag
         if: env.IS_MAIN == 'true'

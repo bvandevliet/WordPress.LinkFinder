@@ -1,0 +1,28 @@
+{
+    "name": "bvandevliet/link-finder",
+    "description": "Find and repair broken links throughout your website.",
+    "version": "00.00.00",
+    "type": "plugin",
+    "license": "GPLv2 or later",
+    "authors": [
+        {
+            "name": "Bob Vandevliet",
+            "email": "info@bvandevliet.nl"
+        }
+    ],
+    "require": {
+        "alleyinteractive/composer-wordpress-autoloader": "^1.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "alleyinteractive/composer-wordpress-autoloader": true
+        }
+    },
+    "autoload": {
+        "files": [
+            "inc/functions.php",
+            "inc/class-linkfinder-manage-links.php",
+            "admin/settings.php"
+        ]
+    }
+}

@@ -20,16 +20,13 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// Define plugin constants.
 define( 'LINKFINDER_PLUGIN_VERSION', '[[VERSION]]' );
+define( 'LINKFINDER_ABSPATH', trailingslashit( __DIR__ ) );
+define( 'LINKFINDER_URL', plugin_dir_url( __FILE__ ) );
 
-/**
- * Include plugin resources.
- *
- * @since 2020.06.11
- */
-require dirname( __FILE__ ) . '/inc/functions.php';
-require dirname( __FILE__ ) . '/inc/class-linkfinder-manage-links.php';
-require dirname( __FILE__ ) . '/admin/settings.php';
+// Composer autoload.
+require __DIR__ . '/vendor/autoload.php';
 
 
 /**
