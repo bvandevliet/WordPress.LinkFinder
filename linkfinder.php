@@ -11,7 +11,6 @@
  * License:           GPLv2 or later
  * License URI:       https://www.gnu.org/licenses/gpl.html
  * Text Domain:       linkfinder
- * Domain Path:       /languages
  *
  * @ignore TODO: Add link text table column.
  * @ignore TODO: Add option to prevent search engines from following a link.
@@ -30,21 +29,6 @@ define( 'LINKFINDER_PLUGIN_VERSION', '2022.01.05' );
 require dirname( __FILE__ ) . '/inc/functions.php';
 require dirname( __FILE__ ) . '/inc/class-linkfinder-manage-links.php';
 require dirname( __FILE__ ) . '/admin/settings.php';
-
-
-/**
- * Force the languages to load.
- *
- * @since 2020.06.11
- * @since 2021.10.14 Added plugin_basename() which did the trick making it work.
- */
-add_action(
-  'init',
-  function ()
-  {
-    load_plugin_textdomain( 'linkfinder', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-  }
-);
 
 
 /**
