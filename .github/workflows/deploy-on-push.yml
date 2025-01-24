@@ -37,6 +37,12 @@ jobs:
           echo "VERSION=$version"        >> $GITHUB_OUTPUT
           echo "PRERELEASE=$preRelease"  >> $GITHUB_OUTPUT
       -
+        name: Update version in files
+        env:
+          VERSION: ${{ steps.meta.outputs.VERSION }}
+        run: |
+          find . -type f \( -name "*.php" -o -name "readme.txt" \) -exec sed -i "s/\[\[VERSION\]\]/$VERSION/g" {} +
+      -
         name: Create Git tag
         if: env.IS_MAIN == 'true'
         continue-on-error: true

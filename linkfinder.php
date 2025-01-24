@@ -2,9 +2,10 @@
 
 /**
  * Plugin Name:       Link Finder
- * Version:           2022.01.05
- * Requires at least: 4.6
- * Requires PHP:      7.2
+ * Version:           [[VERSION]]
+ * Requires at least: 6.4
+ * Tested up to:      6.7
+ * Requires PHP:      8.2
  * Description:       Find and repair broken links throughout your website.
  * Author:            Bob Vandevliet
  * Author URI:        https://www.bvandevliet.nl/
@@ -19,7 +20,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'LINKFINDER_PLUGIN_VERSION', '2022.01.05' );
+define( 'LINKFINDER_PLUGIN_VERSION', '[[VERSION]]' );
 
 /**
  * Include plugin resources.

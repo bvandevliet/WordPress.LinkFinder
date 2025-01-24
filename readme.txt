@@ -1,13 +1,13 @@
 === Link Finder ===
 
-Contributors: bvandevliet
-Tags: links, hyperlinks, 404, permalinks, maintenance
-Requires at least: 4.6
-Tested up to: 5.9
-Requires PHP: 7.2
-Stable tag: 2022.01.05
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl.html
+Contributors:      bvandevliet
+Tags:              links, hyperlinks, 404, permalinks, maintenance
+Stable tag:        [[VERSION]]
+Requires at least: 6.4
+Tested up to:      6.7
+Requires PHP:      8.2
+License:           GPLv2 or later
+License URI:       https://www.gnu.org/licenses/gpl.html
 
 Find and repair broken links throughout your website.
 
