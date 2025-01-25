@@ -7,15 +7,11 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Class for updating hyperlinks in posts.
- *
- * @since 2020.06.11
  */
 class Manage_Links
 {
   /**
    * Retrieve hyperlinks throughout the website.
-   *
-   * @since 2020.06.11
    *
    * @global wpdb $wpdb
    *
@@ -56,8 +52,6 @@ class Manage_Links
    * Update hyperlinks from a POST request.
    *
    * The `$_POST` parameters must contain "oldlink_elem-{post_id}-{link_index}" and "newlink-{post_id}-{link_index}".
-   *
-   * @since 2020.06.11
    *
    * @return bool True on success, false if an error occured.
    */
@@ -127,8 +121,6 @@ class Manage_Links
   /**
    * Update internal hyperlinks as absolute url (self-pings allowed) or as relative url (self-pings avoided).
    *
-   * @since 2020.06.11
-   *
    * @param bool $allow Wheter to allow or avoid internal hyperlinks to trigger self-pings.
    * @return bool True on success, false if an error occured.
    */
@@ -186,16 +178,14 @@ class Manage_Links
    *
    * Made private to restrict free database write access.
    *
-   * @since 2020.06.11
-   *
    * @global wpdb $wpdb
    *
    * @param array $newlinks {
-   *  @type array $newlink {
+   *  @type array {
    *    @type string  $oldlink_elem
    *    @type string  $newlink_elem
    *    @type int     $postid
-   *  }, ...
+   *  }
    * }
    * @return bool True on success, false if an error occured.
    */

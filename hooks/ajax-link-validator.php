@@ -5,9 +5,6 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * AJAX hook to include the WordPress functions in a standalone php file.
- *
- * @since 2020.06.11
- * @since 2021.10.11 Simplified.
  */
 add_action(
   'wp_ajax_linkfinder_process_links',
@@ -64,8 +61,6 @@ add_action(
       * This action maps Requests internal hook to a native WordPress action.
       *
       * @see https://github.com/rmccue/Requests/blob/master/docs/hooks.md
-      *
-      * @since 4.7.0
       *
       * @param array  $parameters Parameters from Requests internal hook.
       * @param array  $request    Request data in WP_Http format.

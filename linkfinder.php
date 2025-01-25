@@ -31,8 +31,6 @@ require __DIR__ . '/vendor/autoload.php';
 
 /**
  * Append subtile call-to-action write review link below plugin at the plugins admin page.
- *
- * @since 2021.11.29
  */
 add_filter(
   'plugin_action_links_' . plugin_basename( __FILE__ ),
@@ -51,8 +49,6 @@ add_filter(
 
 /**
  * Add the plugin menu's and pages (admin_menu).
- *
- * @since 2020.06.11
  *
  * @link https://developer.wordpress.org/plugins/administration-menus/
  */
@@ -82,8 +78,6 @@ add_action(
 
             /**
              * Filter the submit button.
-             *
-             * @since 2020.06.11
              */
             echo apply_filters( 'linkfinder_submit_button', get_submit_button( __( 'Save changes', 'linkfinder' ) ) );
             ?>
@@ -95,8 +89,6 @@ add_action(
 
     /**
      * After submit callback.
-     *
-     * @since 2020.06.11
      */
     add_action(
       'load-' . $hookname,
@@ -127,9 +119,6 @@ add_action(
 
 /**
  * Enqueue admin styles and scripts.
- *
- * @since 2020.06.11
- * @since 2021.10.29 Dynamic versioning.
  */
 add_action(
   'admin_enqueue_scripts',

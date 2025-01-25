@@ -6,8 +6,6 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Register setting sections and fields.
  *
- * @since 2020.06.11
- *
  * @link https://developer.wordpress.org/plugins/settings/
  */
 add_action(
@@ -16,8 +14,6 @@ add_action(
   {
     /**
      * The main section.
-     *
-     * @since 2020.06.11
      */
     add_settings_section(
       'linkfinder_section',
@@ -78,6 +74,7 @@ add_action(
         </table>
 
         <script>
+          // TODO: Implement and use a proper AJAX request to retrieve the hyperlinks.
           linkfinder_process_links(
             <?php echo wp_json_encode( \Linkfinder\Manage_Links::retrieve_hyperlinks() ); ?>,
             '<?php echo esc_js( home_url() ); ?>',
@@ -95,8 +92,6 @@ add_action(
 
 /**
  * Filter the submit button to provide the option for resolving while either allowing or avoiding self-pings.
- *
- * @since 2020.06.11
  */
 add_filter(
   'linkfinder_submit_button',
@@ -132,8 +127,6 @@ add_filter(
 
 /**
  * After authenticated page submit.
- *
- * @since 2020.06.11
  */
 function linkfinder_after_page_submit_cb()
 {

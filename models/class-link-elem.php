@@ -7,8 +7,6 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Class for updating hyperlinks in posts.
- *
- * @since 00.00.00
  */
 class Link_Elem
 {
