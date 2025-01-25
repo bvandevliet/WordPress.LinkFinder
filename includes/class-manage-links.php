@@ -39,23 +39,13 @@ class Manage_Links
 
     foreach ( $results as $result )
     {
-      preg_match_all( '/(<\s*([^>\s]+?)\b[^>]*?\b(href|src)\s*=\s*[\'"])([^\'"]*?)([\'"][^>]*?>)/ims', $result->post_content, $link_matches );
-
       // let linkinfo =
       $postid_hyperlinks[ $result->ID ] = array(
         'post_title'  => $result->post_title,
         'post_name'   => $result->post_name,
         'post_type'   => $result->post_type,
         'post_status' => $result->post_status,
-        'hyperlinks'  => $link_matches,
-        // 'hyperlinks' => [
-        // [0] => [$link_elem, ...],
-        // [1] => [$link_before, ...],
-        // [2] => [$element, ...],
-        // [3] => [$link_attr, ...],
-        // [4] => [$link_value, ...],
-        // [5] => [$link_after, ...],
-        // ],
+        'hyperlinks'  => \Linkfinder\Link_Elem::multi_from_input( $result->post_content ),
       );
     }
 
@@ -110,18 +100,18 @@ class Manage_Links
         // If for some reason an invalid html element passes the checks, it should not replace anything, as there should be no matches.
         // If it does match something in the replace query, it already was incorrectly stored in the database in the first place.
         // This module is not intended to repair already existing errors. Always only the hyperlink attribute values will be replaced.
-        preg_match( '/(<\s*([^>\s]+?)\b[^>]*?\b(href|src)\s*=\s*[\'"])([^\'"]*?)([\'"][^>]*?>)/i', $oldlink_elem, $matches_oldlink );
+        $oldlink = \Linkfinder\Link_Elem::single_from_input( $oldlink_elem );
 
         if (
-          empty( $matches_oldlink[0] ) ||
-          empty( $matches_oldlink[1] ) || // link_before
-          empty( $matches_oldlink[5] )    // link_after
-        )
+          empty( $oldlink ) ||
+          empty( $oldlink->link_elem_original ) ||
+          empty( $oldlink->link_elem_before_url ) ||
+          empty( $oldlink->link_elem_after_url ))
         {
           continue;
         }
 
-        $newlink_elem = wp_kses_post( $matches_oldlink[1] . $new_link . $matches_oldlink[5] );
+        $newlink_elem = wp_kses_post( $oldlink->link_elem_before_url . $new_link . $oldlink->link_elem_after_url );
 
         $newlinks[] = array(
           'postid'       => $matches_post[1],
@@ -151,11 +141,16 @@ class Manage_Links
 
     foreach ( self::retrieve_hyperlinks() as $postid => $linkinfo )
     {
-      for ( $index = 0, $length = count( $linkinfo['hyperlinks'][0] ); $index < $length; $index++ )
+      /**
+       * @var \Linkfinder\Link_Elem[]
+       */
+      $hyperlinks = $linkinfo['hyperlinks'];
+
+      foreach ( $hyperlinks as $hyperlink )
       {
         // Sanitize $oldlink_elem and the hyperlink.
-        $oldlink_elem = wp_kses_post( linkfinder_trim( $linkinfo['hyperlinks'][0][ $index ] ) );
-        $new_link     = esc_url_raw( linkfinder_trim( $linkinfo['hyperlinks'][4][ $index ] ) );
+        $oldlink_elem = wp_kses_post( linkfinder_trim( $hyperlink->link_elem_original ) );
+        $new_link     = esc_url_raw( linkfinder_trim( $hyperlink->link_elem_url_value ) );
 
         // Rewrite the hyperlinks.
         $new_link = preg_replace( '/^(\/|\#|\?)|^(?:https?:\/\/)?(?:www\.)?(?:' . preg_quote( $home_domain, '/' ) . ')(\/|\#|\?)?/i', $allow ? $home_url . '$1$2' : '$1$2', $new_link, -1, $count );
@@ -173,7 +168,7 @@ class Manage_Links
         }
 
         // Create the replacing html element: $newlink_elem.
-        $newlink_elem = wp_kses_post( $linkinfo['hyperlinks'][1][ $index ] . $new_link . $linkinfo['hyperlinks'][5][ $index ] );
+        $newlink_elem = wp_kses_post( $hyperlink->link_elem_before_url . $new_link . $hyperlink->link_elem_after_url );
 
         $newlinks[] = array(
           'postid'       => $postid,

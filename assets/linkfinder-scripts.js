@@ -1,5 +1,40 @@
+// eslint-disable-next-line no-unused-vars
+class linkfinder_hyperlink
+{
+  link_elem_original = '';
+
+  link_elem_type = '';
+
+  link_elem_before_url = '';
+
+  link_elem_after_url = '';
+
+  link_elem_url_attr = '';
+
+  link_elem_url_value = '';
+}
+
+// eslint-disable-next-line no-unused-vars
+class linkfinder_linkinfo
+{
+  post_title = '';
+
+  post_name = '';
+
+  post_type = '';
+
+  post_status = '';
+
+  /**
+   * @type {linkfinder_hyperlink[]}
+   */
+  hyperlinks = [];
+}
+
 ($ =>
 {
+  const linkfinder_trim = str => str.replace(/([\s\t\v\0\r]|\r?\n)+/gu, ' ').trim();
+
   const sort_element = e =>
   {
     let $th = $(e.target);
@@ -40,6 +75,20 @@
   let potential_warnings = 0;
   let potential_other = 0;
 
+  /**
+   *
+   * @param {string} home_url
+   * @param {string} admin_url
+   * @param {string} validator_url
+   * @param {string|number} postid
+   * @param {linkfinder_linkinfo} linkinfo
+   * @param {number} index
+   * @param {linkfinder_hyperlink} hyperlink
+   * @param {string} link_to_validate
+   * @param {JQuery.jqXHR<any>|{}|null} jqXHR
+   * @param {string|null} errorThrown
+   * @param {string|null} internal_link
+   */
   const print_link_row = (
     home_url,
     admin_url,
@@ -80,8 +129,8 @@
     const $td_post_status = $('<td/>');
     $td_post_status.text(linkinfo.post_status);
 
-    const elem_txt = linkinfo.hyperlinks[2][index].replace(/([\s\t\v\0\r]|\r?\n)+/gu, ' ').trim();
-    const attr_txt = linkinfo.hyperlinks[3][index].replace(/([\s\t\v\0\r]|\r?\n)+/gu, ' ').trim();
+    const elem_txt = linkfinder_trim(hyperlink.link_elem_type);
+    const attr_txt = linkfinder_trim(hyperlink.link_elem_url_attr);
     const $td_link_elem = $('<td/>');
     $td_link_elem.text(`<${elem_txt} ${attr_txt}=`);
 
@@ -89,13 +138,13 @@
     $oldlink_elem_input_hidden
       .attr('type', 'hidden')
       .attr('name', `oldlink_elem-${postid}-${index}`)
-      .val(linkinfo.hyperlinks[0][index].replace(/([\s\t\v\0\r]|\r?\n)+/gu, ' ').trim());
+      .val(linkfinder_trim(hyperlink.link_elem_original));
 
     const $a_link = $('<a/>');
     $a_link
       .attr('href', link_to_validate)
       .attr('target', '_blank')
-      .text(hyperlink);
+      .text(linkfinder_trim(hyperlink.link_elem_url_value));
 
     const $td_link = $('<td/>');
     $td_link.append($a_link);
@@ -223,6 +272,13 @@
     $('table#linkfinder-table>tbody').append($tr);
   };
 
+  /**
+   *
+   * @param {Object.<string, linkfinder_linkinfo>} postid_hyperlinks
+   * @param {string} home_url
+   * @param {string} admin_url
+   * @param {string} validator_url
+   */
   window.linkfinder_process_links = (postid_hyperlinks, home_url, admin_url, validator_url) =>
   {
     // eslint-disable-next-line no-param-reassign
@@ -232,7 +288,7 @@
 
     $.each(postid_hyperlinks, (postid, linkinfo) =>
     {
-      total_count += linkinfo.hyperlinks[4].length;
+      total_count += linkinfo.hyperlinks.length;
     });
 
     if (total_count)
@@ -244,18 +300,17 @@
     $.each(postid_hyperlinks, (postid, linkinfo) =>
     {
       // eslint-disable-next-line consistent-return
-      $.each(linkinfo.hyperlinks[4], (index, hyperlink) =>
+      $.each(linkinfo.hyperlinks, (index, hyperlink) =>
       {
-        // eslint-disable-next-line no-param-reassign
-        hyperlink = hyperlink.replace(/([\s\t\v\0\r]|\r?\n)+/gu, ' ').trim();
+        let link_to_validate = linkfinder_trim(hyperlink.link_elem_url_value);
 
-        if (!hyperlink || /^(mailto|tel):/iu.test(hyperlink))
+        if (!link_to_validate || /^(mailto|tel):/iu.test(link_to_validate))
         {
           links_processed++;
           $('span.linkfinder-total-percentage').text(`${Math.round(links_processed / total_count * 100)}%`);
           $('span.linkfinder-total-count').text(`${links_processed}/${total_count}`);
 
-          if (!hyperlink)
+          if (!link_to_validate)
           {
             print_link_row(
               home_url,
@@ -275,10 +330,9 @@
         }
 
         let internal_link = false;
-        let link_to_validate = hyperlink;
 
         // Check if the hostname of the link is from the same website, if so, it is an internal link.
-        internal_link = hyperlink.replace(/^(https?:\/\/)?(www.?\.)?/iu, '').indexOf(new URL(home_url).hostname.replace(/^www.?\./iu, '')) === 0;
+        internal_link = link_to_validate.replace(/^(https?:\/\/)?(www.?\.)?/iu, '').indexOf(new URL(home_url).hostname.replace(/^www.?\./iu, '')) === 0;
 
         // Check if the link has a protocol.
         let has_protocol = true;
@@ -286,7 +340,7 @@
         try
         {
           // eslint-disable-next-line no-unused-expressions
-          new URL(hyperlink).protocol;
+          new URL(link_to_validate).protocol;
         }
         catch
         {
@@ -294,20 +348,20 @@
         }
 
         // If link has no protocol, it is expected to be an internal link as well.
-        if (!has_protocol && !/^www.?\./iu.test(hyperlink))
+        if (!has_protocol && !/^www.?\./iu.test(link_to_validate))
         {
           internal_link = true;
 
           // Path is absolute ..
-          if (hyperlink.indexOf('/') === 0)
+          if (link_to_validate.indexOf('/') === 0)
           {
             try
             {
-              link_to_validate = new URL(hyperlink, home_url).href;
+              link_to_validate = new URL(link_to_validate, home_url).href;
             }
             catch
             {
-              link_to_validate = home_url + hyperlink;
+              link_to_validate = home_url + link_to_validate;
             }
           }
 
@@ -316,11 +370,11 @@
           {
             try
             {
-              link_to_validate = new URL(`${linkinfo.post_name}/${hyperlink}`, home_url).href;
+              link_to_validate = new URL(`${linkinfo.post_name}/${link_to_validate}`, home_url).href;
             }
             catch
             {
-              link_to_validate = `${home_url}/${linkinfo.post_name}/${hyperlink}`;
+              link_to_validate = `${home_url}/${linkinfo.post_name}/${link_to_validate}`;
             }
           }
         }
@@ -383,6 +437,11 @@
     });
   };
 
+  /**
+   *
+   * @param {string} type
+   * @param {boolean} show
+   */
   window.linkfinder_row_filter = (type, show) =>
   {
     let className = '';

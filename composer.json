@@ -29,6 +29,7 @@
         "wordpress-autoloader": {
             "autoload": {
                 "Linkfinder\\": [
+                    "models/",
                     "includes/"
                 ]
             }
