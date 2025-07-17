@@ -66,10 +66,10 @@ jobs:
         run: sudo apt install subversion -y
       -
         name: Deploy to WordPress
-        # if: env.IS_MAIN == 'true' && steps.meta.outputs.VERSION != ''
+        if: steps.meta.outputs.VERSION != ''
         uses: 10up/action-wordpress-plugin-deploy@stable
         with:
-          dry-run: true # set to false !!
+          dry-run: ${{ env.IS_MAIN != 'true' }}
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
