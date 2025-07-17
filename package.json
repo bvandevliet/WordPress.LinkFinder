@@ -1,0 +1,20 @@
+{
+	"$schema": "https://json.schemastore.org/package.json",
+	"name": "bvandevliet.link-finder",
+	"description": "Find and repair broken links throughout your website.",
+	"version": "00.00.00",
+	"author": "Bob Vandevliet",
+	"license": "MIT",
+	"type": "module",
+	"packageManager": "pnpm@10.12.4",
+	"scripts": {
+		"install": "composer install -o",
+		"build": "composer dump-autoload -o"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.31.0",
+		"@eslint/json": "^0.13.0",
+		"eslint": "^9.31.0",
+		"globals": "^16.3.0"
+	}
+}
