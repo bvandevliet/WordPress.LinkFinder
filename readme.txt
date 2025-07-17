@@ -4,7 +4,7 @@ Contributors:      bvandevliet
 Tags:              links, hyperlinks, 404, permalinks, maintenance
 Stable tag:        [[VERSION]]
 Requires at least: 6.4
-Tested up to:      6.7
+Tested up to:      6.8
 Requires PHP:      8.2
 License:           GPLv2 or later
 License URI:       https://www.gnu.org/licenses/gpl.html

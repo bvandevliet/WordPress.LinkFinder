@@ -4,7 +4,7 @@
  * Plugin Name:       Link Finder
  * Version:           [[VERSION]]
  * Requires at least: 6.4
- * Tested up to:      6.7
+ * Tested up to:      6.8
  * Requires PHP:      8.2
  * Description:       Find and repair broken links throughout your website.
  * Author:            Bob Vandevliet
