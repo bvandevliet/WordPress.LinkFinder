@@ -40,13 +40,13 @@ add_action(
       */
       function( $headers )
       {
-          return wp_parse_args(
-            array(
-              'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
-              'Pragma'        => 'no-cache',
-            ),
-            $headers
-          );
+        return wp_parse_args(
+          array(
+            'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+            'Pragma'        => 'no-cache',
+          ),
+          $headers
+        );
       }
     );
 
