@@ -27,7 +27,7 @@ Find and repair broken links throughout your website.
 </p>
 
 <p>
-  If you would like to contribute, please visit the repo at https://github.com/bvandevliet/WordPress.LinkFinder and open an issue or pull request.
+  If you would like to contribute, please visit the repo at <a href="https://github.com/bvandevliet/WordPress.LinkFinder" target="_blank">GitHub</a> and open an issue or pull request.
 </p>
 
 
@@ -56,6 +56,11 @@ Find and repair broken links throughout your website.
 
 
 == Changelog ==
+
+= 2025.07.17 =
+* Better maintainable code.
+* Removed translations, up to others to pick this up if desired.
+* Updated tested up to version.
 
 = 2022.01.05 =
 * Added feature to sort the table.
