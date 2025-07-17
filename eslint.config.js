@@ -1,26 +1,20 @@
+import js from '@eslint/js';
 import globals from 'globals';
-import pluginJs from '@eslint/js';
+import json from '@eslint/json';
+import { defineConfig } from 'eslint/config';
 
-export default [
-  pluginJs.configs.recommended,
+export default defineConfig([
+  { files: ['**/*.{js,mjs,cjs}'], plugins: { js }, extends: ['js/recommended'] },
   {
-    files: ['**/*.js'],
+    files: ['**/*.{js,mjs,cjs}'],
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.jquery,
       },
-
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-
-      parserOptions: {
-        ecmaFeatures: {
-          impliedStrict: true,
-        },
-      },
     },
-
+  },
+  { files: ['**/*.{js,mjs,cjs}'],
     rules: {
       'arrow-body-style': 'error',
       'array-bracket-newline': ['error', 'consistent'],
@@ -31,11 +25,7 @@ export default [
       'arrow-spacing': 'error',
       'block-scoped-var': 'warn',
       'block-spacing': 'error',
-
-      'brace-style': ['error', 'allman', {
-        allowSingleLine: true,
-      }],
-
+      'brace-style': ['error', 'allman', { allowSingleLine: true }],
       'comma-dangle': ['error', 'always-multiline'],
       'comma-spacing': 'error',
       'comma-style': 'error',
@@ -49,19 +39,11 @@ export default [
       'eol-last': ['error', 'never'],
       eqeqeq: ['error', 'smart'],
       'func-call-spacing': ['error'],
-
-      'func-style': ['error', 'expression', {
-        allowArrowFunctions: true,
-      }],
-
+      'func-style': ['error', 'expression', { allowArrowFunctions: true }],
       'function-call-argument-newline': ['error', 'consistent'],
       'function-paren-newline': ['error', 'consistent'],
       'generator-star-spacing': 'error',
-
-      indent: ['error', 2, {
-        SwitchCase: 1,
-      }],
-
+      indent: ['error', 2, { SwitchCase: 1 }],
       'key-spacing': 'error',
       'keyword-spacing': ['error'],
       'linebreak-style': ['error', 'unix'],
@@ -90,12 +72,7 @@ export default [
       'no-loss-of-precision': ['error'],
       'no-mixed-operators': 'error',
       'no-multi-spaces': 'error',
-
-      'no-multiple-empty-lines': ['error', {
-        max: 1,
-        maxEOF: 0,
-      }],
-
+      'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
       'no-new': 'error',
       'no-new-func': 'error',
       'no-new-object': 'error',
@@ -114,12 +91,7 @@ export default [
       'no-throw-literal': 'error',
       'no-trailing-spaces': 'error',
       'no-unneeded-ternary': 'error',
-
-      'no-unused-expressions': ['error', {
-        allowShortCircuit: true,
-        allowTernary: true,
-      }],
-
+      'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
       'no-unused-private-class-members': 'error',
       'no-unused-vars': ['warn'],
       'no-use-before-define': ['error'],
@@ -133,58 +105,47 @@ export default [
       'no-void': 'error',
       'no-whitespace-before-property': 'error',
       'nonblock-statement-body-position': 'error',
-
-      'object-curly-newline': ['error', {
-        consistent: true,
-      }],
-
+      'object-curly-newline': ['error', { consistent: true }],
       'object-curly-spacing': ['error', 'always'],
       'operator-assignment': 'error',
-
-      'operator-linebreak': ['error', 'before', {
-        overrides: {
-          '=': 'ignore',
+      'operator-linebreak': ['error', 'before', { overrides: { '=': 'ignore' } }],
+      'padded-blocks': ['error', 'never', { allowSingleLineBlocks: true }],
+      'padding-line-between-statements': ['error',
+        {
+          blankLine: 'always',
+          prev: 'directive',
+          next: '*',
         },
-      }],
-
-      'padded-blocks': ['error', 'never', {
-        allowSingleLineBlocks: true,
-      }],
-
-      'padding-line-between-statements': ['error', {
-        blankLine: 'always',
-        prev: 'directive',
-        next: '*',
-      }, {
-        blankLine: 'never',
-        prev: 'directive',
-        next: 'directive',
-      }, {
-        blankLine: 'always',
-        prev: 'import',
-        next: '*',
-      }, {
-        blankLine: 'never',
-        prev: 'import',
-        next: 'import',
-      }, {
-        blankLine: 'always',
-        prev: '*',
-        next: ['block', 'block-like'],
-      }, {
-        blankLine: 'always',
-        prev: ['block', 'block-like'],
-        next: '*',
-      }, {
-        blankLine: 'always',
-        prev: ['case', 'default'],
-        next: '*',
-      }, {
-        blankLine: 'always',
-        prev: '*',
-        next: ['throw', 'empty', 'continue', 'break', 'return'],
-      }],
-
+        {
+          blankLine: 'never',
+          prev: 'directive',
+          next: 'directive',
+        },
+        {
+          blankLine: 'always',
+          prev: 'import',
+          next: '*',
+        },
+        {
+          blankLine: 'never',
+          prev: 'import',
+          next: 'import',
+        },
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: ['block', 'block-like'],
+        },
+        {
+          blankLine: 'always',
+          prev: ['block', 'block-like'],
+          next: '*',
+        },
+        {
+          blankLine: 'always',
+          prev: ['case', 'default'],
+          next: '*',
+        }],
       'prefer-arrow-callback': 'error',
       'prefer-const': 'warn',
       'prefer-destructuring': 'warn',
@@ -217,10 +178,9 @@ export default [
       'template-tag-spacing': ['error', 'always'],
       'wrap-iife': 'error',
       'yield-star-spacing': 'error',
-
-      yoda: ['error', 'never', {
-        onlyEquality: true,
-      }],
-    },
-  },
-];
+      yoda: ['error', 'never', { onlyEquality: true }],
+    } },
+  { files: ['**/*.json'], plugins: { json }, language: 'json/json', extends: ['json/recommended'] },
+  { files: ['**/*.jsonc'], plugins: { json }, language: 'json/jsonc', extends: ['json/recommended'] },
+  { files: ['**/*.json5'], plugins: { json }, language: 'json/json5', extends: ['json/recommended'] },
+]);

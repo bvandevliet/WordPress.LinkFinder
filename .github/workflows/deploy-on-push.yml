@@ -44,7 +44,7 @@ jobs:
           VERSION: ${{ steps.meta.outputs.VERSION }}
           TAG_NAME: ${{ steps.meta.outputs.TAG_NAME }}
         run: |
-          find . -type f -name 'composer.json' -exec sed -i "s/\"00.00.00\"/\"$VERSION\"/g" {} +
+          find . -type f \( -name 'composer.json' -o -name 'package.json' \) -exec sed -i "s/\"00.00.00\"/\"$VERSION\"/g" {} +
           find . -type f \( -name '*.php' -o -name 'readme.txt' \) -exec sed -i "s/\[\[VERSION\]\]/$TAG_NAME/g" {} +
       -
         name: Install dependencies
@@ -52,7 +52,7 @@ jobs:
         with:
           dev: no
           args: --optimize-autoloader
-          php_version: '8.2'
+          php_version: '8.4'
       -
         name: Create Git tag
         if: env.IS_MAIN == 'true'

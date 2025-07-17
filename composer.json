@@ -1,4 +1,5 @@
 {
+    "$schema": "https://getcomposer.org/schema.json",
     "name": "bvandevliet/link-finder",
     "description": "Find and repair broken links throughout your website.",
     "version": "00.00.00",
