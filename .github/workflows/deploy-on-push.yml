@@ -32,6 +32,7 @@ jobs:
           fi
           echo "BRANCH_NAME = $branchName"
           echo "VERSION     = $version"
+          echo "TAG_NAME    = $tagName"
           echo "PRERELEASE  = $preRelease"
           echo "BRANCH_NAME=$branchName" >> $GITHUB_OUTPUT
           echo "VERSION=$version"        >> $GITHUB_OUTPUT
