@@ -1,11 +1,12 @@
 name: Deploy and Release Plugin
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - '**'
-    tags:
-      - '**'
+      - "**"
+    paths-ignore:
+      - ".github/**"
 
 env:
   IS_PUSH: ${{ github.event_name == 'push' }}
@@ -16,11 +17,9 @@ jobs:
     name: Tag and deploy
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@main
-      -
-        name: Get Metadata
+      - name: Get Metadata
         id: meta
         run: |
           branchName=${GITHUB_REF#refs/heads/}
@@ -38,34 +37,29 @@ jobs:
           echo "VERSION=$version"        >> $GITHUB_OUTPUT
           echo "TAG_NAME=$tagName"       >> $GITHUB_OUTPUT
           echo "PRERELEASE=$preRelease"  >> $GITHUB_OUTPUT
-      -
-        name: Update version in files
+      - name: Update version in files
         env:
           VERSION: ${{ steps.meta.outputs.VERSION }}
           TAG_NAME: ${{ steps.meta.outputs.TAG_NAME }}
         run: |
           find . -type f \( -name 'composer.json' -o -name 'package.json' \) -exec sed -i "s/\"00.00.00\"/\"$VERSION\"/g" {} +
           find . -type f \( -name '*.php' -o -name 'readme.txt' \) -exec sed -i "s/\[\[VERSION\]\]/$TAG_NAME/g" {} +
-      -
-        name: Install dependencies
+      - name: Install dependencies
         uses: php-actions/composer@v6
         with:
           dev: no
           args: --optimize-autoloader
-          php_version: '8.4'
-      -
-        name: Create Git tag
+          php_version: "8.4"
+      - name: Create Git tag
         if: env.IS_MAIN == 'true'
         continue-on-error: true
         run: |
           git tag v${{ steps.meta.outputs.VERSION }}
           git push origin v${{ steps.meta.outputs.VERSION }}
-      -
-        name: Install SVN
+      - name: Install SVN
         shell: bash
         run: sudo apt install subversion -y
-      -
-        name: Deploy to WordPress
+      - name: Deploy to WordPress
         if: steps.meta.outputs.VERSION != ''
         uses: 10up/action-wordpress-plugin-deploy@stable
         with:
