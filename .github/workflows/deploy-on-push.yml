@@ -26,12 +26,13 @@ jobs:
           version=$(date +"%Y.%m.%d")
           tagName=$version
           preRelease=false
-          if [[ ${{ env.IS_MAIN }} == "false" ]]; then
+          if [[ ${{ env.IS_MAIN }} != "true" ]]; then
             tagName="$version-$branchName"
             preRelease=true
           fi
           echo "BRANCH_NAME = $branchName"
           echo "VERSION     = $version"
+          echo "TAG_NAME    = $tagName"
           echo "PRERELEASE  = $preRelease"
           echo "BRANCH_NAME=$branchName" >> $GITHUB_OUTPUT
           echo "VERSION=$version"        >> $GITHUB_OUTPUT
