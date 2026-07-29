@@ -4,7 +4,7 @@
     "description": "Find and repair broken links throughout your website.",
     "version": "00.00.00",
     "type": "plugin",
-    "license": "GPLv2 or later",
+    "license": "MIT",
     "authors": [
         {
             "name": "Bob Vandevliet",
